@@ -707,6 +707,22 @@ input[type="color"]::-webkit-color-swatch {
   font-size: 1.2em;
 }
 
+.picks ul li::after {
+  content: attr(data-order); /* Display the order number */
+  background-color: rgba(40, 167, 69, 0.2);
+  color: #28a745;
+  border: 1px solid rgba(40, 167, 69, 0.4);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8em;
+  font-weight: bold;
+  margin-left: auto; /* Push to the right side */
+}
+
 .bans ul li::before {
   content: '✖';
   color: #dc3545;

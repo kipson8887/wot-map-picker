@@ -547,20 +547,41 @@ function updateInstructions() {
 }
 
 function updateResultsPanel() {
-    function populateList(listElement, items, type) {
+    // Calculate global pick order for each team's picks
+    const globalPickOrder = {};
+    let pickCounter = 1;
+    
+    // Go through the sequence to determine the global order of picks
+    for (let i = 0; i < currentStep; i++) {
+        const action = PICK_BAN_SEQUENCE[i];
+        if (action.action === 'PICK') {
+            if (!globalPickOrder[action.team]) {
+                globalPickOrder[action.team] = [];
+            }
+            globalPickOrder[action.team].push(pickCounter);
+            pickCounter++;
+        }
+    }
+
+    function populateList(listElement, items, type, team) {
         listElement.innerHTML = '';
-        items.forEach(item => {
+        items.forEach((item, index) => {
             const li = document.createElement('li');
             li.textContent = item;
-            // Add class for styling if needed, e.g., based on type 'pick' or 'ban'
+
+            // Add global order number for picks only
+            if (type === 'pick' && globalPickOrder[team]) {
+                li.setAttribute('data-order', globalPickOrder[team][index]);
+            }
+            
             listElement.appendChild(li);
         });
     }
 
-    populateList(team1PicksList, picks[1], 'pick');
-    populateList(team1BansList, bans[1], 'ban');
-    populateList(team2PicksList, picks[2], 'pick');
-    populateList(team2BansList, bans[2], 'ban');
+    populateList(team1PicksList, picks[1], 'pick', 1);
+    populateList(team1BansList, bans[1], 'ban', 1);
+    populateList(team2PicksList, picks[2], 'pick', 2);
+    populateList(team2BansList, bans[2], 'ban', 2);
 }
 
 // ============================================================================
