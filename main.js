@@ -262,42 +262,58 @@ function updateInitialMapGridLayout() {
     const numTiles = tiles.length;
 
     if (numTiles === 0) {
-        mapGrid.style.gridTemplateColumns = 'repeat(3, 1fr)'; // Default if no tiles
+        mapGrid.style.gridTemplateColumns = 'repeat(3, 1fr)';
         return;
     }
 
-    // Base the layout on a 6-column internal grid for flexibility
-    mapGrid.style.gridTemplateColumns = 'repeat(6, 1fr)';
+    // Check if we're on mobile (using same media query logic)
+    const isMobile = window.innerWidth <= 768 && window.matchMedia('(pointer: coarse)').matches;
+    
+    if (isMobile) {
+        // Mobile: 2-column layout - CSS already handles this
+        tiles.forEach(tile => {
+            tile.style.gridColumn = 'auto';
+            tile.classList.remove('single-full-width-map');
+        });
+        
+        // Last item spans both columns if odd number
+        if (numTiles % 2 === 1) {
+            tiles[numTiles - 1].style.gridColumn = '1 / -1';
+            tiles[numTiles - 1].classList.add('single-full-width-map');
+        }
+    } else {
+        // Desktop: keep your existing 3-column logic exactly as is
+        mapGrid.style.gridTemplateColumns = 'repeat(6, 1fr)';
+        
+        const visualCols = 3;
+        const normalItemSpan = 6 / visualCols;
+        let itemsInLastVisualRow = numTiles % visualCols;
+        if (itemsInLastVisualRow === 0 && numTiles > 0) {
+            itemsInLastVisualRow = visualCols;
+        }
 
-    const visualCols = 3; // We want to display as if it's 3 columns normally
-    const normalItemSpan = 6 / visualCols; // Each item spans 2 of the 6 internal columns
+        tiles.forEach((tile, index) => {
+            tile.classList.remove('single-full-width-map');
+            const isTileInLastVisualRow = index >= (numTiles - itemsInLastVisualRow);
 
-    // Determine how many items are in the last visual row
-    let itemsInLastVisualRow = numTiles % visualCols;
-    if (itemsInLastVisualRow === 0 && numTiles > 0) { // If it's a multiple of visualCols, the last row is full
-        itemsInLastVisualRow = visualCols;
-    }
-
-    tiles.forEach((tile, index) => {
-        tile.classList.remove('single-full-width-map'); // Reset class each time
-        const isTileInLastVisualRow = index >= (numTiles - itemsInLastVisualRow);
-
-        if (isTileInLastVisualRow) {
-            if (itemsInLastVisualRow === 1) {
-                // Last single item spans all 6 internal columns (full width)
-                tile.style.gridColumn = `auto / span 6`;
-                tile.classList.add('single-full-width-map'); // Add class for special styling
-            } else if (itemsInLastVisualRow === 2) {
-                // Last two items each span 3 internal columns (50% width each)
-                tile.style.gridColumn = `auto / span 3`;
-            } else { // Last row has 3 items (itemsInLastVisualRow === 3)
+            if (isTileInLastVisualRow) {
+                if (itemsInLastVisualRow === 1) {
+                    tile.style.gridColumn = `auto / span 6`;
+                    tile.classList.add('single-full-width-map');
+                } else if (itemsInLastVisualRow === 2) {
+                    tile.style.gridColumn = `auto / span 3`;
+                } else {
+                    tile.style.gridColumn = `auto / span ${normalItemSpan}`;
+                }
+            } else {
                 tile.style.gridColumn = `auto / span ${normalItemSpan}`;
             }
-        } else { // Tile is in a full, preceding row
-            tile.style.gridColumn = `auto / span ${normalItemSpan}`;
-        }
-    });
+        });
+    }
 }
+
+// Add resize listener to handle orientation changes
+window.addEventListener('resize', updateInitialMapGridLayout);
 
 // ============================================================================
 //  CORE FUNCTIONS

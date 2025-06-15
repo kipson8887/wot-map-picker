@@ -21,18 +21,23 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 5px; /* Reduced from 10px */
+  padding: 5px;
+  /* Reduced from 10px */
   box-sizing: border-box;
 }
 
 .map-picker-container {
   width: 100%;
-  max-width: 1200px; /* Reduced from 1400px */
-  height: calc(100vh - 10px); /* Reduced from 20px */
+  max-width: 1200px;
+  /* Reduced from 1400px */
+  height: calc(100vh - 10px);
+  /* Reduced from 20px */
   max-height: calc(100vh - 10px);
   background-color: #2c2c2c;
-  border-radius: 8px; /* Reduced from 12px */
-  padding: 10px; /* Reduced from 15px */
+  border-radius: 8px;
+  /* Reduced from 12px */
+  padding: 10px;
+  /* Reduced from 15px */
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
   display: flex;
   flex-direction: column;
@@ -42,13 +47,16 @@ body {
 
 .header {
   display: flex;
-  align-items: center; 
+  align-items: center;
   max-width: 100%;
-  margin-bottom: 8px; /* Reduced from 20px */
+  margin-bottom: 8px;
+  /* Reduced from 20px */
   border-bottom: 2px solid transparent;
   background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
-  border-radius: 8px 8px 0 0; /* Reduced from 12px */
-  padding: 10px 15px; /* Reduced from 15px 20px */
+  border-radius: 8px 8px 0 0;
+  /* Reduced from 12px */
+  padding: 10px 15px;
+  /* Reduced from 15px 20px */
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
@@ -63,30 +71,39 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(255, 215, 0, 0.05), 
-    transparent);
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 215, 0, 0.05),
+      transparent);
   animation: headerShimmer 4s ease-in-out infinite;
   z-index: 0;
 }
 
 @keyframes headerShimmer {
-  0%, 100% { left: -100%; }
-  50% { left: 100%; }
+
+  0%,
+  100% {
+    left: -100%;
+  }
+
+  50% {
+    left: 100%;
+  }
 }
 
 /* Ensure header content is above the animated background */
-.header > * {
+.header>* {
   position: relative;
   z-index: 1;
 }
 
 .logo-container {
-  margin-right: 20px; /* Reduced from 30px */
+  margin-right: 20px;
+  /* Reduced from 30px */
   display: flex;
   align-items: center;
-  padding: 8px; /* Reduced from 10px */
+  padding: 8px;
+  /* Reduced from 10px */
   border-radius: 50%;
   transition: all 0.3s ease;
 }
@@ -96,7 +113,8 @@ body {
 }
 
 .wot-logo {
-  height: 35px; /* Reduced from 45px */
+  height: 35px;
+  /* Reduced from 45px */
   width: auto;
   transition: filter 0.3s ease;
 }
@@ -106,18 +124,21 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px; /* Reduced from 15px */
+  gap: 10px;
+  /* Reduced from 15px */
 }
 
 h1 {
   color: #ffd700;
   margin: 0;
-  font-size: 1.8rem; /* Reduced from 2.2rem */
+  font-size: 1.8rem;
+  /* Reduced from 2.2rem */
   text-align: center;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1.5px; /* Reduced from 2px */
-  text-shadow: 
+  letter-spacing: 1.5px;
+  /* Reduced from 2px */
+  text-shadow:
     0 0 10px rgba(255, 215, 0, 0.5),
     0 2px 4px rgba(0, 0, 0, 0.8);
   background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
@@ -130,8 +151,15 @@ h1 {
 }
 
 @keyframes goldShine {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 /* Add a subtle glow effect to the title */
@@ -150,25 +178,37 @@ h1::after {
 }
 
 @keyframes titleGlow {
-  0% { opacity: 0; transform: scale(1); }
-  100% { opacity: 1; transform: scale(1.02); }
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
 }
 
 .dropdown-group {
   display: flex;
-  gap: 20px; /* Reduced from 25px */
+  gap: 20px;
+  /* Reduced from 25px */
   justify-content: center;
   flex-wrap: wrap;
-  padding: 10px 15px; /* Reduced from 15px 20px */
+  padding: 10px 15px;
+  /* Reduced from 15px 20px */
 }
 
 .format-selector-container {
   display: flex;
   align-items: center;
-  gap: 8px; /* Reduced from 10px */
+  gap: 8px;
+  /* Reduced from 10px */
   background: rgba(0, 0, 0, 0.2);
-  padding: 6px 12px; /* Reduced from 8px 15px */
-  border-radius: 6px; /* Reduced from 8px */
+  padding: 6px 12px;
+  /* Reduced from 8px 15px */
+  border-radius: 6px;
+  /* Reduced from 8px */
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
 }
@@ -182,7 +222,8 @@ h1::after {
 
 .format-selector-container label {
   margin-right: 0;
-  font-size: 0.8em; /* Reduced from 0.9em */
+  font-size: 0.8em;
+  /* Reduced from 0.9em */
   color: #e0e0e0;
   white-space: nowrap;
   font-weight: 600;
@@ -191,37 +232,40 @@ h1::after {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-#game-format-selector, 
+#game-format-selector,
 #battle-format-selector {
-  padding: 6px 10px; /* Reduced from 8px 12px */
-  border-radius: 4px; /* Reduced from 6px */
+  padding: 6px 10px;
+  /* Reduced from 8px 12px */
+  border-radius: 4px;
+  /* Reduced from 6px */
   border: 1px solid #666;
   background: linear-gradient(135deg, #3a3a3a, #2a2a2a);
   color: #f0f0f0;
-  font-size: 0.8em; /* Reduced from 0.9em */
+  font-size: 0.8em;
+  /* Reduced from 0.9em */
   font-weight: 500;
   cursor: pointer;
   outline: none;
   transition: all 0.3s ease;
-  box-shadow: 
+  box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.1),
     0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-#game-format-selector:hover, 
+#game-format-selector:hover,
 #battle-format-selector:hover {
   background: linear-gradient(135deg, #4a4a4a, #3a3a3a);
   border-color: #888;
   transform: translateY(-1px);
-  box-shadow: 
+  box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
     0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-#game-format-selector:focus, 
+#game-format-selector:focus,
 #battle-format-selector:focus {
   border-color: #ffd700;
-  box-shadow: 
+  box-shadow:
     0 0 10px rgba(255, 215, 0, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   background: linear-gradient(135deg, #4a4a4a, #3a3a3a);
@@ -264,16 +308,16 @@ h1::after {
     text-align: center;
     padding: 15px 20px;
   }
-  
+
   .logo-container {
     margin-right: 0;
     margin-bottom: 15px;
   }
-  
+
   .dropdown-group {
     gap: 15px;
   }
-  
+
   h1 {
     font-size: 1.8rem;
     letter-spacing: 1px;
@@ -281,28 +325,33 @@ h1::after {
 }
 
 #instructions {
-  font-size: 1.1em; /* Reduced from 1.3em */
+  font-size: 1.1em;
+  /* Reduced from 1.3em */
   font-weight: 600;
   color: #ffffff;
-  min-height: 28px; /* Reduced from 32px */
+  min-height: 28px;
+  /* Reduced from 32px */
   transition: all 0.4s ease;
   text-align: center;
   max-width: 100%;
   margin-top: 0;
-  margin-bottom: 8px; /* Reduced from 10px */
-  padding: 8px 15px; /* Reduced from 12px 20px */
-  
+  margin-bottom: 8px;
+  /* Reduced from 10px */
+  padding: 8px 15px;
+  /* Reduced from 12px 20px */
+
   /* Enhanced visual styling */
   background: linear-gradient(135deg, rgba(68, 68, 68, 0.3), rgba(85, 85, 85, 0.3));
   border: 2px solid rgba(255, 215, 0, 0.3);
-  border-radius: 8px; /* Reduced from 12px */
+  border-radius: 8px;
+  /* Reduced from 12px */
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
-  
+
   /* Typography improvements */
   letter-spacing: 0.5px;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  
+
   /* Subtle animation */
   position: relative;
   overflow: hidden;
@@ -327,7 +376,7 @@ h1::after {
 }
 
 /* Ensure text stays above the animated background */
-#instructions > * {
+#instructions>* {
   position: relative;
   z-index: 1;
 }
@@ -335,17 +384,17 @@ h1::after {
 /* Enhanced states for different instruction types */
 #instructions.team1-turn {
   border-color: var(--team1-color);
-  background: linear-gradient(135deg, 
-    rgba(var(--team1-color-rgb), 0.15), 
-    rgba(var(--team1-color-rgb), 0.05));
+  background: linear-gradient(135deg,
+      rgba(var(--team1-color-rgb), 0.15),
+      rgba(var(--team1-color-rgb), 0.05));
   box-shadow: 0 4px 20px rgba(var(--team1-color-rgb), 0.2);
 }
 
 #instructions.team2-turn {
   border-color: var(--team2-color);
-  background: linear-gradient(135deg, 
-    rgba(var(--team2-color-rgb), 0.15), 
-    rgba(var(--team2-color-rgb), 0.05));
+  background: linear-gradient(135deg,
+      rgba(var(--team2-color-rgb), 0.15),
+      rgba(var(--team2-color-rgb), 0.05));
   box-shadow: 0 4px 20px rgba(var(--team2-color-rgb), 0.2);
 }
 
@@ -366,17 +415,26 @@ h1::after {
 }
 
 .team-name {
-  color: #ffffff; /* White text color */
-  background-color: rgba(80, 80, 80, 0.4); /* Neutral dark background */
-  padding: 4px 8px; /* Same padding as action-type */
-  border-radius: 6px; /* Same border-radius as action-type */
-  font-size: 0.9em; /* Same font-size as action-type */
+  color: #ffffff;
+  /* White text color */
+  background-color: rgba(80, 80, 80, 0.4);
+  /* Neutral dark background */
+  padding: 4px 8px;
+  /* Same padding as action-type */
+  border-radius: 6px;
+  /* Same border-radius as action-type */
+  font-size: 0.9em;
+  /* Same font-size as action-type */
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px; /* Same letter-spacing as action-type */
-  border: 1px solid rgba(255, 255, 255, 0.15); /* Subtle border */
-  animation: actionPulse 1.5s ease-in-out infinite; /* Apply pulse animation */
-  display: inline-block; /* Ensures background and padding apply correctly */
+  letter-spacing: 0.5px;
+  /* Same letter-spacing as action-type */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  /* Subtle border */
+  animation: actionPulse 1.5s ease-in-out infinite;
+  /* Apply pulse animation */
+  display: inline-block;
+  /* Ensures background and padding apply correctly */
 }
 
 .action-type {
@@ -386,8 +444,10 @@ h1::after {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  animation: actionPulse 1.5s ease-in-out infinite; /* Add pulse animation */
-  display: inline-block; /* Ensures background and padding apply correctly */
+  animation: actionPulse 1.5s ease-in-out infinite;
+  /* Add pulse animation */
+  display: inline-block;
+  /* Ensures background and padding apply correctly */
 }
 
 .action-pick {
@@ -404,11 +464,14 @@ h1::after {
 
 /* Pulse animation for action spans (PICK/BAN) */
 @keyframes actionPulse {
-  0%, 100% { 
+
+  0%,
+  100% {
     transform: scale(1);
     opacity: 1;
   }
-  50% { 
+
+  50% {
     transform: scale(1.1);
     opacity: 0.8;
   }
@@ -429,7 +492,8 @@ h1::after {
   gap: 12px;
   flex-grow: 1;
   overflow: hidden;
-  padding: 8px; /* Increased padding to accommodate hover effects */
+  padding: 8px;
+  /* Increased padding to accommodate hover effects */
   margin-bottom: 0;
   min-height: 0;
 }
@@ -439,11 +503,14 @@ h1::after {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
-  padding: 15px; /* Increased padding from 8px to 15px */
+  padding: 15px;
+  /* Increased padding from 8px to 15px */
   overflow-y: auto;
-  overflow-x: hidden; /* Prevent horizontal overflow that causes scrollbars */
+  overflow-x: hidden;
+  /* Prevent horizontal overflow that causes scrollbars */
   max-height: 100%;
-  margin: 8px; /* Increased margin from 3px to 8px for more spacing */
+  margin: 8px;
+  /* Increased margin from 3px to 8px for more spacing */
   /* Custom scrollbar */
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 215, 0, 0.6) rgba(0, 0, 0, 0.2);
@@ -482,13 +549,15 @@ h1::after {
   transition: transform 0.2s ease, box-shadow 0.2s ease, max-height 0.3s ease;
   z-index: 1;
   /* Increased margin to prevent clipping during hover */
-  margin: 4px; /* Increased from 2px to 4px */
+  margin: 4px;
+  /* Increased from 2px to 4px */
   /* Ensure the tile doesn't overflow its container */
   max-width: 100%;
 }
 
 .map-tile.single-full-width-map {
-  max-height: 237px; /* Reduced from 280px */
+  max-height: 237px;
+  /* Reduced from 280px */
   /* The tile still has aspect-ratio: 16/9 from .map-tile.
      It will take full width due to grid-column: span 6.
      Its height will be capped by max-height.
@@ -497,25 +566,30 @@ h1::after {
 }
 
 .map-tile:not(.disabled):hover {
-  transform: scale(1.05); /* Slightly larger scale for hover effect */
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); /* Enhanced glow effect */
+  transform: scale(1.05);
+  /* Slightly larger scale for hover effect */
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+  /* Enhanced glow effect */
   border-color: #ffd700;
   z-index: 50;
   /* Adjust margin to maintain grid alignment during hover */
-  margin: 2px; /* Reduced margin during hover to compensate for scale */
+  margin: 2px;
+  /* Reduced margin during hover to compensate for scale */
 }
 
 /* Team-specific hover effects - also reduced scale */
 .map-tile:not(.disabled):hover.team1-hover {
   box-shadow: 0 0 25px var(--team1-color);
   border-color: var(--team1-color);
-  transform: scale(1.03); /* Consistent reduced scale */
+  transform: scale(1.03);
+  /* Consistent reduced scale */
 }
 
 .map-tile:not(.disabled):hover.team2-hover {
   box-shadow: 0 0 25px var(--team2-color);
   border-color: var(--team2-color);
-  transform: scale(1.03); /* Consistent reduced scale */
+  transform: scale(1.03);
+  /* Consistent reduced scale */
 }
 
 .map-name {
@@ -551,7 +625,7 @@ h1::after {
   pointer-events: none;
   padding: 10px;
   box-sizing: border-box;
-  text-shadow: 
+  text-shadow:
     -2px -2px 0 #000,
     2px -2px 0 #000,
     -2px 2px 0 #000,
@@ -577,9 +651,11 @@ h1::after {
 }
 
 .map-tile.picked-by-team1 .map-overlay {
-  opacity: 1; /* Add this line to make the overlay visible */
+  opacity: 1;
+  /* Add this line to make the overlay visible */
   font-size: 1.3em;
-  background-color: var(--team1-color-overlay); /* More transparent */
+  background-color: var(--team1-color-overlay);
+  /* More transparent */
   color: white;
   border: 2px solid var(--team1-color);
 }
@@ -590,16 +666,19 @@ h1::after {
 }
 
 .map-tile.picked-by-team2 .map-overlay {
-  opacity: 1; /* Add this line to make the overlay visible */
+  opacity: 1;
+  /* Add this line to make the overlay visible */
   font-size: 1.3em;
-  background-color: var(--team2-color-overlay); /* More transparent */
+  background-color: var(--team2-color-overlay);
+  /* More transparent */
   color: white;
   border: 2px solid var(--team2-color);
 }
 
 /* Tiebreaker map styling - special treatment for the final decisive map */
 .map-tile.tiebreaker {
-  border: 3px solid #ffd700 !important; /* Gold border for tiebreaker */
+  border: 3px solid #ffd700 !important;
+  /* Gold border for tiebreaker */
   box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.4) !important;
   position: relative;
   animation: tiebreakerPulse 2s ease-in-out infinite;
@@ -607,16 +686,14 @@ h1::after {
 
 .map-tile.tiebreaker .map-overlay {
   border: 3px solid #ffd700 !important;
-  background: linear-gradient(
-    135deg, 
-    rgba(255, 215, 0, 0.2), 
-    var(--team1-color-overlay), 
-    var(--team2-color-overlay),
-    rgba(255, 215, 0, 0.2)
-  ) !important;
+  background: linear-gradient(135deg,
+      rgba(255, 215, 0, 0.2),
+      var(--team1-color-overlay),
+      var(--team2-color-overlay),
+      rgba(255, 215, 0, 0.2)) !important;
   font-size: 1.4em !important;
   font-weight: 900 !important;
-  text-shadow: 
+  text-shadow:
     -2px -2px 0 #000,
     2px -2px 0 #000,
     -2px 2px 0 #000,
@@ -626,14 +703,17 @@ h1::after {
 
 /* Tiebreaker pulse animation */
 @keyframes tiebreakerPulse {
-  0%, 100% {
-    box-shadow: 
-      0 0 20px rgba(255, 215, 0, 0.8), 
+
+  0%,
+  100% {
+    box-shadow:
+      0 0 20px rgba(255, 215, 0, 0.8),
       0 0 40px rgba(255, 215, 0, 0.4);
   }
+
   50% {
-    box-shadow: 
-      0 0 30px rgba(255, 215, 0, 1), 
+    box-shadow:
+      0 0 30px rgba(255, 215, 0, 1),
       0 0 60px rgba(255, 215, 0, 0.6),
       0 0 80px rgba(255, 215, 0, 0.3);
   }
@@ -647,8 +727,10 @@ h1::after {
 
 /* Auto-banned maps have a slightly different styling */
 .map-tile.auto-banned {
-  border-color: #6c757d; /* Gray border for auto-banned */
-  filter: grayscale(0.9) brightness(0.3); /* More muted appearance */
+  border-color: #6c757d;
+  /* Gray border for auto-banned */
+  filter: grayscale(0.9) brightness(0.3);
+  /* More muted appearance */
 }
 
 /* ================================================= */
@@ -659,34 +741,43 @@ h1::after {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px; /* Reduced from 15px */
-  min-width: 180px; /* Reduced from 220px */
-  max-width: 240px; /* Reduced from 280px */
+  gap: 10px;
+  /* Reduced from 15px */
+  min-width: 180px;
+  /* Reduced from 220px */
+  max-width: 240px;
+  /* Reduced from 280px */
 }
 
 .team-results {
   background-color: #252525;
-  padding: 10px; /* Reduced from 15px */
-  border-radius: 6px; /* Reduced from 8px */
+  padding: 10px;
+  /* Reduced from 15px */
+  border-radius: 6px;
+  /* Reduced from 8px */
   border: 1px solid #444;
   display: flex;
   flex-direction: column;
-  gap: 8px; /* Reduced from 10px */
+  gap: 8px;
+  /* Reduced from 10px */
   flex: 1;
 }
 
 .team-header {
   display: flex;
   align-items: center;
-  gap: 8px; /* Reduced from 10px */
-  padding-bottom: 6px; /* Reduced from 8px */
+  gap: 8px;
+  /* Reduced from 10px */
+  padding-bottom: 6px;
+  /* Reduced from 8px */
   border-bottom: 1px solid #444;
 }
 
 .team-header h3 {
   margin: 0;
   flex-grow: 1;
-  font-size: 1em; /* Reduced from 1.2em */
+  font-size: 1em;
+  /* Reduced from 1.2em */
   color: #fff;
   cursor: text;
   border-bottom: 2px solid transparent;
@@ -694,8 +785,10 @@ h1::after {
 }
 
 input[type="color"] {
-  min-width: 30px; /* Reduced from 36px */
-  height: 30px; /* Reduced from 36px */
+  min-width: 30px;
+  /* Reduced from 36px */
+  height: 30px;
+  /* Reduced from 36px */
   border: none;
   cursor: pointer;
   background-color: transparent;
@@ -710,14 +803,17 @@ input[type="color"]:hover {
 input[type="color"]::-webkit-color-swatch-wrapper {
   padding: 0;
 }
+
 input[type="color"]::-webkit-color-swatch {
   border: 2px solid #555;
 }
 
 .team-results h4 {
-  margin: 0 0 4px 0; /* Reduced from 5px */
+  margin: 0 0 4px 0;
+  /* Reduced from 5px */
   color: #bbb;
-  font-size: 0.75em; /* Reduced from 0.85em */
+  font-size: 0.75em;
+  /* Reduced from 0.85em */
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -726,23 +822,29 @@ input[type="color"]::-webkit-color-swatch {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  font-size: 0.85em; /* Reduced from 1em */
+  font-size: 0.85em;
+  /* Reduced from 1em */
   display: flex;
   flex-direction: column;
-  gap: 4px; /* Reduced from 5px */
+  gap: 4px;
+  /* Reduced from 5px */
   flex: 1;
 }
 
 /* Base style for all list items */
 .team-results ul li {
   background-color: #333;
-  padding: 6px 10px; /* Reduced from 8px 12px */
-  border-radius: 4px; /* Reduced from 6px */
-  border-left: 4px solid; /* Placeholder for team color */
+  padding: 6px 10px;
+  /* Reduced from 8px 12px */
+  border-radius: 4px;
+  /* Reduced from 6px */
+  border-left: 4px solid;
+  /* Placeholder for team color */
   font-weight: bold;
   display: flex;
   align-items: center;
-  gap: 6px; /* Reduced from 8px */
+  gap: 6px;
+  /* Reduced from 8px */
   transition: background-color 0.2s;
 }
 
@@ -751,8 +853,13 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 /* Team-specific border colors for list items */
-.team-1 ul li { border-color: var(--team1-color); }
-.team-2 ul li { border-color: var(--team2-color); }
+.team-1 ul li {
+  border-color: var(--team1-color);
+}
+
+.team-2 ul li {
+  border-color: var(--team2-color);
+}
 
 /* Add Pick and Ban icons */
 .picks ul li::before {
@@ -762,7 +869,8 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .picks ul li::after {
-  content: attr(data-order); /* Display the order number */
+  content: attr(data-order);
+  /* Display the order number */
   background-color: rgba(40, 167, 69, 0.2);
   color: #28a745;
   border: 1px solid rgba(40, 167, 69, 0.4);
@@ -774,7 +882,8 @@ input[type="color"]::-webkit-color-swatch {
   justify-content: center;
   font-size: 0.8em;
   font-weight: bold;
-  margin-left: auto; /* Push to the right side */
+  margin-left: auto;
+  /* Push to the right side */
 }
 
 .bans ul li::before {
@@ -786,32 +895,38 @@ input[type="color"]::-webkit-color-swatch {
 /* Reset button styling */
 #reset-button {
   margin-top: auto;
-  padding: 8px; /* Reduced from 12px */
-  font-size: 0.9em; /* Reduced from 1.1em */
+  padding: 8px;
+  /* Reduced from 12px */
+  font-size: 0.9em;
+  /* Reduced from 1.1em */
   font-weight: bold;
   cursor: pointer;
   border: none;
-  border-radius: 6px; /* Reduced from 8px */
+  border-radius: 6px;
+  /* Reduced from 8px */
   background-color: #c82333;
   color: white;
   transition: background-color 0.2s, box-shadow 0.2s;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 #reset-button:hover {
   background-color: #dc3545;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 /* Footer Styling */
 .site-footer {
-  padding: 6px 15px; /* Reduced from 10px 20px */
+  padding: 6px 15px;
+  /* Reduced from 10px 20px */
   text-align: center;
-  font-size: 0.75em; /* Reduced from 0.85em */
+  font-size: 0.75em;
+  /* Reduced from 0.85em */
   color: #aaa;
   background: linear-gradient(135deg, #1a1a1a 0%, #222222 50%, #1a1a1a 100%);
   border-top: 1px solid #333;
-  border-radius: 0 0 8px 8px; /* Reduced from 12px */
+  border-radius: 0 0 8px 8px;
+  /* Reduced from 12px */
   flex-shrink: 0;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
   position: relative;
@@ -822,22 +937,27 @@ input[type="color"]::-webkit-color-swatch {
   margin: 0;
   letter-spacing: 0.5px;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-  display: flex; /* Align items in the paragraph */
+  display: flex;
+  /* Align items in the paragraph */
   align-items: center;
   justify-content: center;
 }
 
 .site-footer p::before,
 .site-footer p::after {
-  content: '◈'; /* Decorative element */
+  content: '◈';
+  /* Decorative element */
   color: #ffd700;
   opacity: 0.6;
-  margin: 0 8px; /* Reduced from 10px */
-  font-size: 1.2em; /* Reduced from 1.6em */
+  margin: 0 8px;
+  /* Reduced from 10px */
+  font-size: 1.2em;
+  /* Reduced from 1.6em */
 }
 
 .site-footer .wotlife-link {
-  color: rgb(255, 106, 0); /* WotLife orange */
+  color: rgb(255, 106, 0);
+  /* WotLife orange */
   text-decoration: none;
   font-weight: bold;
   transition: color 0.2s ease, text-shadow 0.2s ease;
@@ -849,17 +969,23 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .site-footer .twitch-icon-link {
-  display: inline-flex; /* Align SVG nicely */
+  display: inline-flex;
+  /* Align SVG nicely */
   align-items: center;
-  margin-left: 8px; /* Space between name and icon */
-  color: #9146FF; /* Twitch purple for the icon */
+  margin-left: 8px;
+  /* Space between name and icon */
+  color: #9146FF;
+  /* Twitch purple for the icon */
   transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .site-footer .twitch-icon-link svg {
-  width: 16px; /* Reduced from 20px */
-  height: 16px; /* Reduced from 20px */
-  fill: currentColor; /* Use the link's color for the SVG fill */
+  width: 16px;
+  /* Reduced from 20px */
+  height: 16px;
+  /* Reduced from 20px */
+  fill: currentColor;
+  /* Use the link's color for the SVG fill */
 }
 
 .site-footer .twitch-icon-link:hover {
@@ -872,15 +998,15 @@ input[type="color"]::-webkit-color-swatch {
   .map-picker-container {
     max-width: 1100px;
   }
-  
+
   h1 {
     font-size: 1.6rem;
   }
-  
+
   .logo-container {
     margin-right: 15px;
   }
-  
+
   .wot-logo {
     height: 30px;
   }
@@ -891,31 +1017,31 @@ input[type="color"]::-webkit-color-swatch {
     max-width: 1000px;
     padding: 8px;
   }
-  
+
   .header {
     padding: 8px 12px;
     margin-bottom: 6px;
   }
-  
+
   h1 {
     font-size: 1.4rem;
   }
-  
+
   .dropdown-group {
     padding: 8px 12px;
     gap: 15px;
   }
-  
+
   #instructions {
     font-size: 1em;
     padding: 6px 12px;
     min-height: 24px;
   }
-  
+
   .content {
     gap: 10px;
   }
-  
+
   .map-grid {
     gap: 10px;
     padding: 6px;
@@ -926,15 +1052,193 @@ input[type="color"]::-webkit-color-swatch {
   body {
     padding: 3px;
   }
-  
+
   .map-picker-container {
     height: calc(100vh - 6px);
     max-height: calc(100vh - 6px);
     padding: 6px;
   }
-  
+
   .site-footer {
     padding: 4px 10px;
     font-size: 0.7em;
+  }
+}
+
+/* MOBILE-ONLY CSS - VERY SPECIFIC TO AVOID DESKTOP INTERFERENCE */
+@media (max-width: 768px) and (pointer: coarse) {
+  /* Only target actual mobile/touch devices */
+
+  body {
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    max-height: none !important;
+  }
+
+  .map-picker-container {
+    height: auto !important;
+    max-height: none !important;
+    min-height: calc(100vh - 4px) !important;
+  }
+
+  .header {
+    flex-direction: column !important;
+    text-align: center !important;
+  }
+
+  .format-selector-container:hover {
+    background: rgba(0, 0, 0, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .format-selector-container::before {
+    display: none !important;
+  }
+
+  .format-selector-container:hover::before {
+    display: none !important;
+  }
+
+  #game-format-selector:hover,
+  #battle-format-selector:hover {
+    background: linear-gradient(135deg, #3a3a3a, #2a2a2a) !important;
+    border-color: #666 !important;
+    transform: none !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 2px 4px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .logo-container {
+    margin-right: 0 !important;
+    margin-bottom: 10px !important;
+  }
+
+  .dropdown-group {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 10px !important;
+  }
+
+  .format-selector-container {
+    width: 100% !important;
+    max-width: 300px !important;
+    margin: 0 auto !important;
+  }
+
+  .content {
+    flex-direction: column !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  #instructions {
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 10px !important;
+    font-size: 1em !important;
+    min-height: 20px !important;
+  }
+
+  .instruction-content {
+    font-size: 0.9em !important;
+  }
+
+  /* Results panel at bottom - 2 columns */
+  .results-panel {
+    order: 2 !important;
+    flex-direction: column !important;
+    min-width: auto !important;
+    max-width: none !important;
+    margin-top: 20px !important;
+    gap: 10px !important;
+  }
+
+  .team-results {
+    flex: 1 !important;
+    min-width: 0 !important;
+  }
+
+  /* Map grid - 2 columns at top */
+  .map-grid {
+    order: 1 !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    flex: none !important;
+    overflow: visible !important;
+    max-height: none !important;
+    height: auto !important;
+  }
+
+  /* Reset button - full width */
+  #reset-button {
+    order: 3 !important;
+    width: 100% !important;
+    margin: 15px 0 0 0 !important;
+    padding: 12px !important;
+    font-size: 1.1em !important;
+  }
+
+  .map-overlay {
+    font-size: 1.2em !important;
+    padding: 8px !important;
+  }
+
+  /* Tiebreaker map styling - special treatment for the final decisive map */
+  .map-tile.tiebreaker {
+    font-size: 0.75em !important;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 480px) and (pointer: coarse) {
+  h1 {
+    font-size: 1.4rem !important;
+  }
+
+  .format-selector-container {
+    padding: 6px 10px !important;
+  }
+
+  .format-selector-container label {
+    font-size: 0.8em !important;
+  }
+
+  #game-format-selector,
+  #battle-format-selector {
+    font-size: 0.8em !important;
+    padding: 6px 8px !important;
+  }
+
+  .map-name {
+    font-size: 0.9em !important;
+  }
+
+  .team-results {
+    padding: 8px !important;
+  }
+
+  input[type="color"] {
+    min-width: 25px !important;
+    height: 25px !important;
+  }
+}
+
+/* Landscape phones - restore side layout */
+@media (max-width: 768px) and (orientation: landscape) and (max-height: 500px) {
+  .content {
+    flex-direction: row !important;
+  }
+
+  .results-panel {
+    order: 2 !important;
+    flex-direction: column !important;
+    max-width: 200px;
+  }
+
+  .map-grid {
+    order: 1 !important;
   }
 }
