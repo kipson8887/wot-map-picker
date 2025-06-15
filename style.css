@@ -1,0 +1,870 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* Define CSS Custom Properties (Variables) for colors */
+:root {
+  --team1-color: #007bff;
+  --team1-color-overlay: rgba(0, 123, 255, 0.5);
+  --team2-color: #fd7e14;
+  --team2-color-overlay: rgba(253, 126, 20, 0.5);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
+  color: #f0f0f0;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px; /* Reduced from 10px */
+  box-sizing: border-box;
+}
+
+.map-picker-container {
+  width: 100%;
+  max-width: 1200px; /* Reduced from 1400px */
+  height: calc(100vh - 10px); /* Reduced from 20px */
+  max-height: calc(100vh - 10px);
+  background-color: #2c2c2c;
+  border-radius: 8px; /* Reduced from 12px */
+  padding: 10px; /* Reduced from 15px */
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  align-items: center; 
+  max-width: 100%;
+  margin-bottom: 8px; /* Reduced from 20px */
+  border-bottom: 2px solid transparent;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
+  border-radius: 8px 8px 0 0; /* Reduced from 12px */
+  padding: 10px 15px; /* Reduced from 15px 20px */
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Animated background gradient */
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 215, 0, 0.05), 
+    transparent);
+  animation: headerShimmer 4s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes headerShimmer {
+  0%, 100% { left: -100%; }
+  50% { left: 100%; }
+}
+
+/* Ensure header content is above the animated background */
+.header > * {
+  position: relative;
+  z-index: 1;
+}
+
+.logo-container {
+  margin-right: 20px; /* Reduced from 30px */
+  display: flex;
+  align-items: center;
+  padding: 8px; /* Reduced from 10px */
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.logo-container:hover {
+  transform: scale(1.1);
+}
+
+.wot-logo {
+  height: 35px; /* Reduced from 45px */
+  width: auto;
+  transition: filter 0.3s ease;
+}
+
+.header-text {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px; /* Reduced from 15px */
+}
+
+h1 {
+  color: #ffd700;
+  margin: 0;
+  font-size: 1.8rem; /* Reduced from 2.2rem */
+  text-align: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px; /* Reduced from 2px */
+  text-shadow: 
+    0 0 10px rgba(255, 215, 0, 0.5),
+    0 2px 4px rgba(0, 0, 0, 0.8);
+  background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: goldShine 3s ease-in-out infinite;
+  position: relative;
+}
+
+@keyframes goldShine {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Add a subtle glow effect to the title */
+h1::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+  border-radius: 8px;
+  z-index: -1;
+  opacity: 0;
+  animation: titleGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+  0% { opacity: 0; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.02); }
+}
+
+.dropdown-group {
+  display: flex;
+  gap: 20px; /* Reduced from 25px */
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 10px 15px; /* Reduced from 15px 20px */
+}
+
+.format-selector-container {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Reduced from 10px */
+  background: rgba(0, 0, 0, 0.2);
+  padding: 6px 12px; /* Reduced from 8px 15px */
+  border-radius: 6px; /* Reduced from 8px */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.format-selector-container:hover {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 215, 0, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.format-selector-container label {
+  margin-right: 0;
+  font-size: 0.8em; /* Reduced from 0.9em */
+  color: #e0e0e0;
+  white-space: nowrap;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+#game-format-selector, 
+#battle-format-selector {
+  padding: 6px 10px; /* Reduced from 8px 12px */
+  border-radius: 4px; /* Reduced from 6px */
+  border: 1px solid #666;
+  background: linear-gradient(135deg, #3a3a3a, #2a2a2a);
+  color: #f0f0f0;
+  font-size: 0.8em; /* Reduced from 0.9em */
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#game-format-selector:hover, 
+#battle-format-selector:hover {
+  background: linear-gradient(135deg, #4a4a4a, #3a3a3a);
+  border-color: #888;
+  transform: translateY(-1px);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#game-format-selector:focus, 
+#battle-format-selector:focus {
+  border-color: #ffd700;
+  box-shadow: 
+    0 0 10px rgba(255, 215, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, #4a4a4a, #3a3a3a);
+}
+
+/* Enhanced dropdown options styling */
+#game-format-selector option,
+#battle-format-selector option {
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+  padding: 8px;
+}
+
+#game-format-selector option:hover,
+#battle-format-selector option:hover {
+  background-color: #3a3a3a;
+}
+
+/* Add some visual indicators for the dropdown containers */
+.format-selector-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.format-selector-container:hover::before {
+  opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    text-align: center;
+    padding: 15px 20px;
+  }
+  
+  .logo-container {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+  
+  .dropdown-group {
+    gap: 15px;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+  }
+}
+
+#instructions {
+  font-size: 1.1em; /* Reduced from 1.3em */
+  font-weight: 600;
+  color: #ffffff;
+  min-height: 28px; /* Reduced from 32px */
+  transition: all 0.4s ease;
+  text-align: center;
+  max-width: 100%;
+  margin-top: 0;
+  margin-bottom: 8px; /* Reduced from 10px */
+  padding: 8px 15px; /* Reduced from 12px 20px */
+  
+  /* Enhanced visual styling */
+  background: linear-gradient(135deg, rgba(68, 68, 68, 0.3), rgba(85, 85, 85, 0.3));
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 8px; /* Reduced from 12px */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  
+  /* Typography improvements */
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  
+  /* Subtle animation */
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Add a subtle animated background effect */
+#instructions::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+  transition: left 0.6s ease;
+  z-index: 0;
+}
+
+#instructions.active::before {
+  left: 100%;
+}
+
+/* Ensure text stays above the animated background */
+#instructions > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Enhanced states for different instruction types */
+#instructions.team1-turn {
+  border-color: var(--team1-color);
+  background: linear-gradient(135deg, 
+    rgba(var(--team1-color-rgb), 0.15), 
+    rgba(var(--team1-color-rgb), 0.05));
+  box-shadow: 0 4px 20px rgba(var(--team1-color-rgb), 0.2);
+}
+
+#instructions.team2-turn {
+  border-color: var(--team2-color);
+  background: linear-gradient(135deg, 
+    rgba(var(--team2-color-rgb), 0.15), 
+    rgba(var(--team2-color-rgb), 0.05));
+  box-shadow: 0 4px 20px rgba(var(--team2-color-rgb), 0.2);
+}
+
+#instructions.completed {
+  border-color: #28a745;
+  background: linear-gradient(135deg, rgba(40, 167, 69, 0.15), rgba(40, 167, 69, 0.05));
+  box-shadow: 0 4px 20px rgba(40, 167, 69, 0.3);
+  color: #28a745;
+}
+
+/* Add icons and better formatting for instructions */
+.instruction-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.team-name {
+  color: #ffffff; /* White text color */
+  background-color: rgba(80, 80, 80, 0.4); /* Neutral dark background */
+  padding: 4px 8px; /* Same padding as action-type */
+  border-radius: 6px; /* Same border-radius as action-type */
+  font-size: 0.9em; /* Same font-size as action-type */
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px; /* Same letter-spacing as action-type */
+  border: 1px solid rgba(255, 255, 255, 0.15); /* Subtle border */
+  animation: actionPulse 1.5s ease-in-out infinite; /* Apply pulse animation */
+  display: inline-block; /* Ensures background and padding apply correctly */
+}
+
+.action-type {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.9em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  animation: actionPulse 1.5s ease-in-out infinite; /* Add pulse animation */
+  display: inline-block; /* Ensures background and padding apply correctly */
+}
+
+.action-pick {
+  background-color: rgba(40, 167, 69, 0.2);
+  color: #28a745;
+  border: 1px solid rgba(40, 167, 69, 0.4);
+}
+
+.action-ban {
+  background-color: rgba(220, 53, 69, 0.2);
+  color: #dc3545;
+  border: 1px solid rgba(220, 53, 69, 0.4);
+}
+
+/* Pulse animation for action spans (PICK/BAN) */
+@keyframes actionPulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% { 
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+/* Subtle glow animation for active instructions */
+/* @keyframes glow {
+  0%, 100% { box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2); }
+  50% { box-shadow: 0 4px 25px rgba(255, 215, 0, 0.4); }
+} */
+
+#instructions:not(.completed) {
+  animation: glow 3s ease-in-out infinite;
+}
+
+.content {
+  display: flex;
+  gap: 12px;
+  flex-grow: 1;
+  overflow: hidden;
+  padding: 8px; /* Increased padding to accommodate hover effects */
+  margin-bottom: 0;
+  min-height: 0;
+}
+
+.map-grid {
+  flex: 3;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 15px; /* Increased padding from 8px to 15px */
+  overflow-y: auto;
+  overflow-x: hidden; /* Prevent horizontal overflow that causes scrollbars */
+  max-height: 100%;
+  margin: 8px; /* Increased margin from 3px to 8px for more spacing */
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 215, 0, 0.6) rgba(0, 0, 0, 0.2);
+  /* Add some breathing room around the entire grid */
+  box-sizing: border-box;
+}
+
+/* Custom scrollbar for webkit browsers */
+.map-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.map-grid::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.map-grid::-webkit-scrollbar-thumb {
+  background: rgba(255, 215, 0, 0.6);
+  border-radius: 4px;
+}
+
+.map-grid::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 215, 0, 0.8);
+}
+
+.map-tile {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background-size: cover;
+  background-position: center;
+  border: 2px solid #555;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, max-height 0.3s ease;
+  z-index: 1;
+  /* Increased margin to prevent clipping during hover */
+  margin: 4px; /* Increased from 2px to 4px */
+  /* Ensure the tile doesn't overflow its container */
+  max-width: 100%;
+}
+
+.map-tile.single-full-width-map {
+  max-height: 237px; /* Reduced from 280px */
+  /* The tile still has aspect-ratio: 16/9 from .map-tile.
+     It will take full width due to grid-column: span 6.
+     Its height will be capped by max-height.
+     background-size: cover will adapt the image to these new dimensions.
+  */
+}
+
+.map-tile:not(.disabled):hover {
+  transform: scale(1.05); /* Slightly larger scale for hover effect */
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); /* Enhanced glow effect */
+  border-color: #ffd700;
+  z-index: 50;
+  /* Adjust margin to maintain grid alignment during hover */
+  margin: 2px; /* Reduced margin during hover to compensate for scale */
+}
+
+/* Team-specific hover effects - also reduced scale */
+.map-tile:not(.disabled):hover.team1-hover {
+  box-shadow: 0 0 25px var(--team1-color);
+  border-color: var(--team1-color);
+  transform: scale(1.03); /* Consistent reduced scale */
+}
+
+.map-tile:not(.disabled):hover.team2-hover {
+  box-shadow: 0 0 25px var(--team2-color);
+  border-color: var(--team2-color);
+  transform: scale(1.03); /* Consistent reduced scale */
+}
+
+.map-name {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 5px 15px;
+  border-radius: 5px;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-align: center;
+  pointer-events: none;
+}
+
+.map-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.6em;
+  font-weight: bold;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  padding: 10px;
+  box-sizing: border-box;
+  text-shadow: 
+    -2px -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 2px 0 #000,
+    2px 2px 0 #000;
+}
+
+.map-tile.disabled {
+  cursor: not-allowed;
+}
+
+.map-tile.banned {
+  filter: grayscale(100%);
+}
+
+.map-tile.banned .map-overlay {
+  opacity: 1;
+  background-color: rgba(200, 0, 0, 0.5);
+}
+
+.map-tile.picked-by-team1 {
+  border-color: var(--team1-color);
+  box-shadow: 0 0 10px var(--team1-color-overlay);
+}
+
+.map-tile.picked-by-team1 .map-overlay {
+  opacity: 1; /* Add this line to make the overlay visible */
+  font-size: 1.3em;
+  background-color: var(--team1-color-overlay); /* More transparent */
+  color: white;
+  border: 2px solid var(--team1-color);
+}
+
+.map-tile.picked-by-team2 {
+  border-color: var(--team2-color);
+  box-shadow: 0 0 10px var(--team2-color-overlay);
+}
+
+.map-tile.picked-by-team2 .map-overlay {
+  opacity: 1; /* Add this line to make the overlay visible */
+  font-size: 1.3em;
+  background-color: var(--team2-color-overlay); /* More transparent */
+  color: white;
+  border: 2px solid var(--team2-color);
+}
+
+/* ================================================= */
+/*          RESULTS PANEL UI - IMPROVED              */
+/* ================================================= */
+
+.results-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Reduced from 15px */
+  min-width: 180px; /* Reduced from 220px */
+  max-width: 240px; /* Reduced from 280px */
+}
+
+.team-results {
+  background-color: #252525;
+  padding: 10px; /* Reduced from 15px */
+  border-radius: 6px; /* Reduced from 8px */
+  border: 1px solid #444;
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Reduced from 10px */
+  flex: 1;
+}
+
+.team-header {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Reduced from 10px */
+  padding-bottom: 6px; /* Reduced from 8px */
+  border-bottom: 1px solid #444;
+}
+
+.team-header h3 {
+  margin: 0;
+  flex-grow: 1;
+  font-size: 1em; /* Reduced from 1.2em */
+  color: #fff;
+  cursor: text;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 0;
+}
+
+input[type="color"] {
+  min-width: 30px; /* Reduced from 36px */
+  height: 30px; /* Reduced from 36px */
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  padding: 0;
+  transition: transform 0.2s;
+}
+
+input[type="color"]:hover {
+  transform: scale(1.1);
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+  border: 2px solid #555;
+}
+
+.team-results h4 {
+  margin: 0 0 4px 0; /* Reduced from 5px */
+  color: #bbb;
+  font-size: 0.75em; /* Reduced from 0.85em */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.team-results ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.85em; /* Reduced from 1em */
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* Reduced from 5px */
+  flex: 1;
+}
+
+/* Base style for all list items */
+.team-results ul li {
+  background-color: #333;
+  padding: 6px 10px; /* Reduced from 8px 12px */
+  border-radius: 4px; /* Reduced from 6px */
+  border-left: 4px solid; /* Placeholder for team color */
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 6px; /* Reduced from 8px */
+  transition: background-color 0.2s;
+}
+
+.team-results ul li:hover {
+  background-color: #3e3e3e;
+}
+
+/* Team-specific border colors for list items */
+.team-1 ul li { border-color: var(--team1-color); }
+.team-2 ul li { border-color: var(--team2-color); }
+
+/* Add Pick and Ban icons */
+.picks ul li::before {
+  content: '✔';
+  color: #28a745;
+  font-size: 1.2em;
+}
+
+.bans ul li::before {
+  content: '✖';
+  color: #dc3545;
+  font-size: 1.2em;
+}
+
+/* Reset button styling */
+#reset-button {
+  margin-top: auto;
+  padding: 8px; /* Reduced from 12px */
+  font-size: 0.9em; /* Reduced from 1.1em */
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px; /* Reduced from 8px */
+  background-color: #c82333;
+  color: white;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+#reset-button:hover {
+  background-color: #dc3545;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+/* Footer Styling */
+.site-footer {
+  padding: 6px 15px; /* Reduced from 10px 20px */
+  text-align: center;
+  font-size: 0.75em; /* Reduced from 0.85em */
+  color: #aaa;
+  background: linear-gradient(135deg, #1a1a1a 0%, #222222 50%, #1a1a1a 100%);
+  border-top: 1px solid #333;
+  border-radius: 0 0 8px 8px; /* Reduced from 12px */
+  flex-shrink: 0;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.site-footer p {
+  margin: 0;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  display: flex; /* Align items in the paragraph */
+  align-items: center;
+  justify-content: center;
+}
+
+.site-footer p::before,
+.site-footer p::after {
+  content: '◈'; /* Decorative element */
+  color: #ffd700;
+  opacity: 0.6;
+  margin: 0 8px; /* Reduced from 10px */
+  font-size: 1.2em; /* Reduced from 1.6em */
+}
+
+.site-footer .wotlife-link {
+  color: rgb(255, 106, 0); /* WotLife orange */
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.site-footer .wotlife-link:hover {
+  color: rgb(255, 140, 0);
+  text-shadow: 0 0 5px rgba(255, 106, 0, 0.7);
+}
+
+.site-footer .twitch-icon-link {
+  display: inline-flex; /* Align SVG nicely */
+  align-items: center;
+  margin-left: 8px; /* Space between name and icon */
+  color: #9146FF; /* Twitch purple for the icon */
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.site-footer .twitch-icon-link svg {
+  width: 16px; /* Reduced from 20px */
+  height: 16px; /* Reduced from 20px */
+  fill: currentColor; /* Use the link's color for the SVG fill */
+}
+
+.site-footer .twitch-icon-link:hover {
+  color: #A970FF;
+  transform: scale(1.1);
+}
+
+/* Enhanced responsive adjustments */
+@media (max-height: 900px) {
+  .map-picker-container {
+    max-width: 1100px;
+  }
+  
+  h1 {
+    font-size: 1.6rem;
+  }
+  
+  .logo-container {
+    margin-right: 15px;
+  }
+  
+  .wot-logo {
+    height: 30px;
+  }
+}
+
+@media (max-height: 800px) {
+  .map-picker-container {
+    max-width: 1000px;
+    padding: 8px;
+  }
+  
+  .header {
+    padding: 8px 12px;
+    margin-bottom: 6px;
+  }
+  
+  h1 {
+    font-size: 1.4rem;
+  }
+  
+  .dropdown-group {
+    padding: 8px 12px;
+    gap: 15px;
+  }
+  
+  #instructions {
+    font-size: 1em;
+    padding: 6px 12px;
+    min-height: 24px;
+  }
+  
+  .content {
+    gap: 10px;
+  }
+  
+  .map-grid {
+    gap: 10px;
+    padding: 6px;
+  }
+}
+
+@media (max-height: 700px) {
+  body {
+    padding: 3px;
+  }
+  
+  .map-picker-container {
+    height: calc(100vh - 6px);
+    max-height: calc(100vh - 6px);
+    padding: 6px;
+  }
+  
+  .site-footer {
+    padding: 4px 10px;
+    font-size: 0.7em;
+  }
+}
