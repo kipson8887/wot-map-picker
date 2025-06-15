@@ -597,6 +597,60 @@ h1::after {
   border: 2px solid var(--team2-color);
 }
 
+/* Tiebreaker map styling - special treatment for the final decisive map */
+.map-tile.tiebreaker {
+  border: 3px solid #ffd700 !important; /* Gold border for tiebreaker */
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.4) !important;
+  position: relative;
+  animation: tiebreakerPulse 2s ease-in-out infinite;
+}
+
+.map-tile.tiebreaker .map-overlay {
+  border: 3px solid #ffd700 !important;
+  background: linear-gradient(
+    135deg, 
+    rgba(255, 215, 0, 0.2), 
+    var(--team1-color-overlay), 
+    var(--team2-color-overlay),
+    rgba(255, 215, 0, 0.2)
+  ) !important;
+  font-size: 1.4em !important;
+  font-weight: 900 !important;
+  text-shadow: 
+    -2px -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 2px 0 #000,
+    2px 2px 0 #000,
+    0 0 10px rgba(255, 215, 0, 0.8) !important;
+}
+
+/* Tiebreaker pulse animation */
+@keyframes tiebreakerPulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px rgba(255, 215, 0, 0.8), 
+      0 0 40px rgba(255, 215, 0, 0.4);
+  }
+  50% {
+    box-shadow: 
+      0 0 30px rgba(255, 215, 0, 1), 
+      0 0 60px rgba(255, 215, 0, 0.6),
+      0 0 80px rgba(255, 215, 0, 0.3);
+  }
+}
+
+/* Ensure tiebreaker styling takes precedence over team colors */
+.map-tile.tiebreaker.picked-by-team1,
+.map-tile.tiebreaker.picked-by-team2 {
+  border: 3px solid #ffd700 !important;
+}
+
+/* Auto-banned maps have a slightly different styling */
+.map-tile.auto-banned {
+  border-color: #6c757d; /* Gray border for auto-banned */
+  filter: grayscale(0.9) brightness(0.3); /* More muted appearance */
+}
+
 /* ================================================= */
 /*          RESULTS PANEL UI - IMPROVED              */
 /* ================================================= */

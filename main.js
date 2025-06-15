@@ -44,7 +44,7 @@ const MAP_POOLS = {
         ALL_AVAILABLE_MAPS.find(map => map.name === 'Pilsen'),
     ].filter(map => map !== undefined),
 
-    '5v5_onslaught': [ // 5v5 Tier X Onslaught
+    '5v5_onslaught': [ // 5v5 Tier X Onslaught - Back to 9 maps
         ALL_AVAILABLE_MAPS.find(map => map.name === 'Himmelsdorf'),
         ALL_AVAILABLE_MAPS.find(map => map.name === 'Ensk'),
         ALL_AVAILABLE_MAPS.find(map => map.name === 'Murovanka'),
@@ -56,7 +56,7 @@ const MAP_POOLS = {
         ALL_AVAILABLE_MAPS.find(map => map.name === 'Oyster Bay'),
     ].filter(map => map !== undefined),
 
-    '7v7_onslaught': [ // 7v7 Tier X Onslaught
+    '7v7_onslaught': [ // 7v7 Tier X Onslaught - Back to 9 maps
         ALL_AVAILABLE_MAPS.find(map => map.name === 'Himmelsdorf'),
         ALL_AVAILABLE_MAPS.find(map => map.name === 'Ensk'),
         ALL_AVAILABLE_MAPS.find(map => map.name === 'Murovanka'),
@@ -71,140 +71,42 @@ const MAP_POOLS = {
 
 let currentMapPool = MAP_POOLS['3v3'];
 
-// Define standardized pick/ban sequences
-function generatePickBanSequence(boX) {
-    const numPicks = Math.ceil(boX / 2);
-    const sequence = [
-        { team: 1, action: 'BAN' },
-        { team: 2, action: 'BAN' }
-    ];
-    for (let i = 0; i < numPicks; i++) {
-        sequence.push({ team: (i % 2) + 1, action: 'PICK' });
-    }
-    return sequence;
-}
-
-const SEQUENCES = {
-    'bo1': generatePickBanSequence(1), // 2 bans, 1 pick = 3 maps needed
-    'bo3': generatePickBanSequence(3), // 2 bans, 2 picks = 4 maps needed (Original was 3 picks, let's adjust if this is preferred)
-    'bo5': generatePickBanSequence(5), // 2 bans, 3 picks = 5 maps needed
-    'bo7': generatePickBanSequence(7), // 2 bans, 4 picks = 6 maps needed
-    'bo9': generatePickBanSequence(9)  // 2 bans, 5 picks = 7 maps needed
-};
-
-// Let's re-evaluate the Bo3 to match the user's likely expectation of 3 maps being played.
-// The old DEFAULT_PICK_BAN_SEQUENCE was: B1, B2, P1, P2, B1, P2 (3 bans, 3 picks = 6 maps)
-// If the goal is "BAN -> PICK -> BAN -> PICK" like pattern with minimal maps for BoX:
-// Bo1: B1, B2, P1. (3 maps total)
-// Bo3 (2 maps won): B1, B2, P1(map1), P2(map2), P1(decider) (2 bans, 3 picks = 5 maps total)
-// This is what generatePickBanSequence(3) produces if Math.ceil(3/2) = 2 picks. No, Math.ceil(3/2) = 2.
-// For Bo3, we need 3 picks if it goes the distance.
-// Let's redefine generatePickBanSequence to ensure picks are for maps played.
-function generateStandardSequence(boXValue) {
-    const numMapsToPlay = Math.ceil(boXValue / 2); // e.g., Bo3 -> 2 maps, Bo5 -> 3 maps
+// Define standardized pick/ban sequences based on correct BoX logic
+// BoX = first to win Math.ceil(X/2) matches
+// So we need exactly Math.ceil(X/2) picks, with bans interspersed
+function generateCorrectSequence(boXValue) {
+    const mapsToPlay = Math.ceil(boXValue / 2); // Bo3->2, Bo5->3, Bo7->4, Bo9->5
     const sequence = [];
-    // Initial Bans
-    sequence.push({ team: 1, action: 'BAN' });
-    sequence.push({ team: 2, action: 'BAN' });
-
-    // Picks
-    for (let i = 0; i < numMapsToPlay; i++) {
-        sequence.push({ team: (i % 2) + 1, action: 'PICK' }); // Team 1 picks 1st, 3rd... Team 2 picks 2nd, 4th...
+    
+    for (let i = 0; i < mapsToPlay; i++) {
+        // Alternate teams for picks: Team 1 picks 1st, 3rd, 5th... Team 2 picks 2nd, 4th...
+        sequence.push({ team: (i % 2) + 1, action: 'PICK' });
+        
+        // Add a ban after each pick, except the last pick
+        if (i < mapsToPlay - 1) {
+            // Alternate teams for bans: opposite team bans after each pick
+            sequence.push({ team: ((i + 1) % 2) + 1, action: 'BAN' });
+        }
     }
+    
     return sequence;
 }
 
-// Re-defining SEQUENCES with a more common interpretation for BoX (number of games)
-// Number of picks in sequence = number of maps that could be played.
-// Bo1: 1 map played. Sequence: B1, B2, P1. (Length 3)
-// Bo3: Up to 3 maps played. Sequence: B1, B2, P1, P2, P1. (Length 5)
-// Bo5: Up to 5 maps played. Sequence: B1, B2, P1, P2, P1, P2, P1. (Length 7)
-// Bo7: Up to 7 maps played. Sequence: B1, B2, P1, P2, P1, P2, P1, P2, P1. (Length 9)
-// Bo9: Up to 9 maps played. Sequence: B1, B2, P1, P2, P1, P2, P1, P2, P1, P2, P1. (Length 11)
-
-const UPDATED_SEQUENCES = {
-    'bo1': generateStandardSequence(1),
-    'bo3': generateStandardSequence(3),
-    'bo5': generateStandardSequence(5),
-    'bo7': generateStandardSequence(7),
-    'bo9': generateStandardSequence(9)
-};
-// Remove old redundant SEQUENCES definitions
-// The old DEFAULT_PICK_BAN_SEQUENCE is effectively replaced by UPDATED_SEQUENCES['bo3'] if it was B1,B2,P1,P2,B1,P2
-// The new UPDATED_SEQUENCES['bo3'] is B1,B2,P1,P2,P1 (2 bans, 3 picks)
-// If the user's "DEFAULT_PICK_BAN_SEQUENCE" (B1,B2,P1,P2,B1,P2) is preferred for Bo3, we should use that.
-// Let's stick to the user's provided DEFAULT for Bo3 and build others similarly if possible,
-// or use the simpler "2 bans then N picks" structure.
-// For now, using the simpler "2 bans then N alternating picks" for consistency.
-// The user mentioned "BAN -> PICK -> BAN -> PICK" pattern.
-// The `DEFAULT_PICK_BAN_SEQUENCE` was: B1, B2, P1, P2, B1, P2. This is 3 bans, 3 picks.
-// Let's use this as the base for Bo3 and make others consistent
+// Updated sequences with correct BoX logic
 const FINAL_SEQUENCES = {
-    'bo1': [
-        { team: 1, action: 'BAN' },
-        { team: 2, action: 'BAN' },
-        { team: 1, action: 'PICK' }
-    ], // 2 bans, 1 pick = 3 maps needed minimum
-
-    'bo3': [
-        { team: 1, action: 'BAN' },
-        { team: 2, action: 'BAN' },
-        { team: 1, action: 'PICK' },
-        { team: 2, action: 'PICK' },
-        { team: 1, action: 'BAN' },
-        { team: 2, action: 'PICK' }
-    ], // 3 bans, 3 picks = 6 maps needed minimum
-
-    'bo5': [
-        { team: 1, action: 'BAN' },
-        { team: 2, action: 'BAN' },
-        { team: 1, action: 'PICK' },
-        { team: 2, action: 'PICK' },
-        { team: 1, action: 'BAN' },
-        { team: 2, action: 'BAN' },
-        { team: 1, action: 'PICK' },
-        { team: 2, action: 'PICK' },
-        { team: 1, action: 'BAN' },
-        { team: 2, action: 'PICK' }
-    ], // 5 bans, 5 picks = 10 maps needed minimum
-
-    'bo7': [
-        { team: 1, action: 'BAN' },
-        { team: 2, action: 'BAN' },
-        { team: 1, action: 'PICK' },
-        { team: 2, action: 'PICK' },
-        { team: 1, action: 'BAN' },
-        { team: 2, action: 'BAN' },
-        { team: 1, action: 'PICK' },
-        { team: 2, action: 'PICK' },
-        { team: 1, action: 'BAN' },
-        { team: 2, action: 'BAN' },
-        { team: 1, action: 'PICK' },
-        { team: 2, action: 'PICK' },
-        { team: 1, action: 'BAN' },
-        { team: 2, action: 'PICK' }
-    ], // 7 bans, 7 picks = 14 maps needed minimum
-
-    'bo9': [
-        { team: 1, action: 'BAN' },
-        { team: 2, action: 'BAN' },
-        { team: 1, action: 'PICK' },
-        { team: 2, action: 'PICK' },
-        { team: 1, action: 'BAN' },
-        { team: 2, action: 'BAN' },
-        { team: 1, action: 'PICK' },
-        { team: 2, action: 'PICK' },
-        { team: 1, action: 'BAN' },
-        { team: 2, action: 'BAN' },
-        { team: 1, action: 'PICK' },
-        { team: 2, action: 'PICK' },
-        { team: 1, action: 'BAN' },
-        { team: 2, action: 'BAN' },
-        { team: 1, action: 'PICK' },
-        { team: 2, action: 'PICK' },
-        { team: 1, action: 'BAN' },
-        { team: 2, action: 'PICK' }
-    ] // 9 bans, 9 picks = 18 maps needed minimum
+    // Removed BO1 as requested
+    
+    'bo3': generateCorrectSequence(3), // First to 2: PICK(T1) -> BAN(T2) -> PICK(T2)
+    // Result: [P1, B2, P2] = 3 actions, needs 4+ maps
+    
+    'bo5': generateCorrectSequence(5), // First to 3: PICK(T1) -> BAN(T2) -> PICK(T2) -> BAN(T1) -> PICK(T1)
+    // Result: [P1, B2, P2, B1, P1] = 5 actions, needs 6+ maps
+    
+    'bo7': generateCorrectSequence(7), // First to 4: PICK(T1) -> BAN(T2) -> PICK(T2) -> BAN(T1) -> PICK(T1) -> BAN(T2) -> PICK(T2)
+    // Result: [P1, B2, P2, B1, P1, B2, P2] = 7 actions, needs 8+ maps
+    
+    'bo9': generateCorrectSequence(9)  // First to 5: PICK(T1) -> BAN(T2) -> PICK(T2) -> BAN(T1) -> PICK(T1) -> BAN(T2) -> PICK(T2) -> BAN(T1) -> PICK(T1)
+    // Result: [P1, B2, P2, B1, P1, B2, P2, B1, P1] = 9 actions, needs 10+ maps
 };
 
 
@@ -288,10 +190,14 @@ function updateGameFormatOptions() {
         if (sequenceForFormat) {
             const mapsNeeded = sequenceForFormat.length;
             
-            // The sequence length represents total actions needed
-            // At the end, there should be 2 maps remaining for the final pick
-            // So we need: sequenceLength + 1 maps minimum (since the last action chooses from 2)
-            const minimumMapsRequired = mapsNeeded + 1;
+            // For BO9 with 9 maps: 9 actions, 0 remaining maps (perfect fit)
+            // For others: sequence length + at least 1 remaining map
+            let minimumMapsRequired;
+            if (formatValue === 'bo9') {
+                minimumMapsRequired = mapsNeeded; // Exactly 9 maps needed for BO9
+            } else {
+                minimumMapsRequired = mapsNeeded + 1; // At least 1 remaining map for others
+            }
             
             if (numAvailableMaps >= minimumMapsRequired) {
                 option.style.display = '';
@@ -314,13 +220,18 @@ function updateGameFormatOptions() {
             gameFormatSelector.value = firstVisibleOptionValue;
         } else {
             // Try to find the smallest available format
-            const formats = ['bo1', 'bo3', 'bo5', 'bo7', 'bo9'];
+            const formats = ['bo3', 'bo5', 'bo7', 'bo9'];
             let fallbackFormat = null;
             
             for (const format of formats) {
-                if (FINAL_SEQUENCES[format] && numAvailableMaps >= (FINAL_SEQUENCES[format].length + 1)) {
-                    fallbackFormat = format;
-                    break;
+                if (FINAL_SEQUENCES[format]) {
+                    const mapsNeeded = FINAL_SEQUENCES[format].length;
+                    const minimumRequired = format === 'bo9' ? mapsNeeded : mapsNeeded + 1;
+                    
+                    if (numAvailableMaps >= minimumRequired) {
+                        fallbackFormat = format;
+                        break;
+                    }
                 }
             }
             
@@ -450,6 +361,12 @@ function handleMapClick(map) {
         picks[currentAction.team].push(mapName);
         tile.classList.add(`picked-by-team${currentAction.team}`);
         tile.querySelector('.map-overlay').textContent = `PICKED BY ${getTeamName(currentAction.team)}`;
+        
+        // Check if this is the tiebreaker (last pick in the sequence)
+        if (isTiebreakerPick()) {
+            tile.classList.add('tiebreaker');
+            tile.querySelector('.map-overlay').textContent = `TIEBREAKER - PICKED BY ${getTeamName(currentAction.team)}`;
+        }
     } else { // BAN
         bans[currentAction.team].push(mapName);
         tile.classList.add('banned');
@@ -463,15 +380,60 @@ function handleMapClick(map) {
         resetButton.classList.remove('hidden');
     }
     
-    // NOTE: Do NOT call updateInitialMapGridLayout() here, as it's for the static initial layout.
-    // If dynamic resizing of *active* maps is needed later, that would be a separate function.
-
-    if (currentStep >= PICK_BAN_SEQUENCE.length) {
+    // Special handling for BO9: auto-pick the last remaining map
+    if (gameFormatSelector.value === 'bo9' && currentStep === PICK_BAN_SEQUENCE.length - 1) {
+        // We just completed the 8th action (a ban), now auto-pick the last map
+        autoPickLastMapForBO9();
+    } else if (currentStep >= PICK_BAN_SEQUENCE.length) {
+        // For other formats, auto-ban remaining maps
         autobanRemainingMaps();
     }
     
     updateInstructions();
     updateResultsPanel();
+}
+
+/**
+ * Checks if the current pick is the tiebreaker (last pick in the sequence)
+ */
+function isTiebreakerPick() {
+    // Count how many picks are left in the sequence after current step
+    let remainingPicks = 0;
+    for (let i = currentStep; i < PICK_BAN_SEQUENCE.length; i++) {
+        if (PICK_BAN_SEQUENCE[i].action === 'PICK') {
+            remainingPicks++;
+        }
+    }
+    
+    // If this is the last pick (remainingPicks === 1, including the current one we just processed)
+    return remainingPicks === 1;
+}
+
+/**
+ * Auto-picks the last remaining map for BO9 format
+ */
+function autoPickLastMapForBO9() {
+    // Find the last remaining map
+    const remainingTiles = document.querySelectorAll('.map-tile:not(.disabled)');
+    
+    if (remainingTiles.length === 1 && currentStep < PICK_BAN_SEQUENCE.length) {
+        const lastAction = PICK_BAN_SEQUENCE[currentStep]; // This should be the final PICK action
+        const remainingTile = remainingTiles[0];
+        const mapName = remainingTile.dataset.mapName;
+        
+        if (lastAction.action === 'PICK') {
+            // Auto-pick the last map
+            picks[lastAction.team].push(mapName);
+            remainingTile.classList.add(`picked-by-team${lastAction.team}`);
+            remainingTile.classList.add('tiebreaker'); // Mark as tiebreaker
+            remainingTile.querySelector('.map-overlay').textContent = `TIEBREAKER - *PICKED BY ${getTeamName(lastAction.team)}`;
+            remainingTile.classList.add('disabled');
+            
+            currentStep++; // Complete the sequence
+        }
+    }
+    
+    // Now that BO9 is complete, no need to auto-ban since all maps are accounted for
 }
 
 function autobanRemainingMaps() {
@@ -483,9 +445,6 @@ function autobanRemainingMaps() {
             tile.querySelector('.map-overlay').textContent = 'AUTO-BANNED';
         }
     });
-    // NOTE: Do NOT call updateInitialMapGridLayout() here.
-    // The layout is static based on the initial pool.
-    // If all maps become disabled, the visual might be empty or show all disabled in their initial layout.
 }
 
 function updateInstructions() {
