@@ -215,6 +215,25 @@ let bans = { 1: [], 2: [] };
 let PICK_BAN_SEQUENCE =
   FINAL_SEQUENCES[gameFormatSelector.value] || FINAL_SEQUENCES["bo3"];
 
+// Tooltip state
+let tooltip = null;
+// let isPeriodicTooltipCurrentlyVisible = false; // Replaced
+// let periodicTooltipConfigs = []; // Removed
+
+// const MAX_PERIODIC_DISPLAYS = 3; // Removed
+// const PERIODIC_INTERVAL = 15 * 1000; // Removed
+const TOOLTIP_DISPLAY_DURATION = 5000; // 5 seconds, kept for initial sequence
+const INITIAL_TOOLTIP_DELAY_FIRST = 3000; // 3 seconds for the first tooltip
+const DELAY_BETWEEN_INITIAL_TOOLTIPS = 3000; // 3 seconds wait between tooltips
+
+// Timeout IDs for the initial sequence
+let initialTooltipTimeoutId1 = null;
+let initialTooltipTimeoutId2 = null;
+let initialTooltipHideTimeoutId1 = null;
+let initialTooltipHideTimeoutId2 = null;
+let isSequencedTooltipVisible = false; // To manage one sequenced tooltip at a time
+let isInitialPageLoad = true; // Flag to ensure initial tooltips run only once
+
 // ============================================================================
 //  HELPER FUNCTIONS
 // ============================================================================
@@ -403,9 +422,187 @@ function updateInitialMapGridLayout() {
 window.addEventListener("resize", updateInitialMapGridLayout);
 
 // ============================================================================
+//  TOOLTIP FUNCTIONS
+// ============================================================================
+
+function clearInitialTooltipSequenceTimeouts() {
+  if (initialTooltipTimeoutId1) clearTimeout(initialTooltipTimeoutId1);
+  if (initialTooltipTimeoutId2) clearTimeout(initialTooltipTimeoutId2);
+  if (initialTooltipHideTimeoutId1) clearTimeout(initialTooltipHideTimeoutId1);
+  if (initialTooltipHideTimeoutId2) clearTimeout(initialTooltipHideTimeoutId2);
+  initialTooltipTimeoutId1 = null;
+  initialTooltipTimeoutId2 = null;
+  initialTooltipHideTimeoutId1 = null;
+  initialTooltipHideTimeoutId2 = null;
+
+  // If a sequenced tooltip is visible when clearing, hide it.
+  if (
+    tooltip &&
+    tooltip.classList.contains("show") &&
+    tooltip.dataset.source === "initial-sequence"
+  ) {
+    hideTooltip(); // This will also set isSequencedTooltipVisible = false
+  }
+  isSequencedTooltipVisible = false; // Ensure it's reset
+}
+
+function createTooltip() {
+  if (!tooltip) {
+    tooltip = document.createElement("div");
+    tooltip.className = "custom-tooltip";
+    document.body.appendChild(tooltip);
+  }
+  return tooltip;
+}
+
+function showTooltip(element, text, source = "interactive") {
+  // source can be 'interactive' or 'initial-sequence'
+  const tooltipEl = createTooltip();
+
+  if (source === "initial-sequence") {
+    // If another sequenced tooltip is already visible, don't show this one.
+    if (
+      isSequencedTooltipVisible &&
+      (!tooltipEl.classList.contains("show") ||
+        tooltipEl.dataset.targetId !== element.id)
+    ) {
+      return false;
+    }
+    // If an interactive tooltip is showing, the sequenced one should not appear.
+    if (
+      tooltipEl.classList.contains("show") &&
+      tooltipEl.dataset.source === "interactive"
+    ) {
+      return false;
+    }
+  }
+  // Interactive tooltips can always attempt to show. They might replace a sequenced one if timing is exact,
+  // or be hidden by a sequenced one if the sequenced one is scheduled later.
+
+  tooltipEl.textContent = text;
+
+  if (!element.id) {
+    element.id = `tooltip-target-${Math.random()
+      .toString(36)
+      .substring(2, 11)}`;
+  }
+  tooltipEl.dataset.targetId = element.id;
+  tooltipEl.dataset.source = source;
+
+  const rect = element.getBoundingClientRect();
+  const tooltipRect = tooltipEl.getBoundingClientRect();
+  const top = rect.top - tooltipRect.height - 15;
+  let left = rect.left + rect.width / 2 - tooltipRect.width / 2;
+  const finalLeft = Math.max(
+    10,
+    Math.min(left, window.innerWidth - tooltipRect.width - 10)
+  );
+  const finalTop = Math.max(10, top);
+
+  tooltipEl.style.top = `${finalTop}px`;
+  tooltipEl.style.left = `${finalLeft}px`;
+  tooltipEl.classList.add("show");
+
+  if (source === "initial-sequence") {
+    isSequencedTooltipVisible = true;
+  }
+  return true; // Tooltip was shown (or attempted to be shown)
+}
+
+function hideTooltip() {
+  if (tooltip && tooltip.classList.contains("show")) {
+    // Check if the tooltip being hidden is a sequenced one
+    if (tooltip.dataset.source === "initial-sequence") {
+      isSequencedTooltipVisible = false;
+    }
+    tooltip.classList.remove("show");
+    delete tooltip.dataset.source;
+    delete tooltip.dataset.targetId;
+  }
+}
+
+function startInitialTooltipSequence() {
+  clearInitialTooltipSequenceTimeouts(); // Clear any previous sequence timeouts
+
+  const colorPickerElement = team1ColorPicker;
+  const colorPickerText = "Want to change your team's color? Click here!";
+
+  const teamNameElement = team2NameInput;
+  const teamNameText = "Psst! You can customize your team's name here!";
+
+  if (!colorPickerElement || !teamNameElement) {
+    // console.warn("Initial tooltip target elements not found. Skipping sequence.");
+    return;
+  }
+
+  // First tooltip (color picker)
+  initialTooltipTimeoutId1 = setTimeout(() => {
+    if (
+      document.activeElement === colorPickerElement ||
+      (tooltip &&
+        tooltip.classList.contains("show") &&
+        tooltip.dataset.source === "interactive")
+    ) {
+      return; // Don't show if element is focused or an interactive tooltip is already up
+    }
+    const wasShown1 = showTooltip(
+      colorPickerElement,
+      colorPickerText,
+      "initial-sequence"
+    );
+
+    if (wasShown1) {
+      initialTooltipHideTimeoutId1 = setTimeout(() => {
+        // Only hide if it's still this specific sequenced tooltip
+        if (
+          tooltip &&
+          tooltip.classList.contains("show") &&
+          tooltip.dataset.targetId === colorPickerElement.id &&
+          tooltip.dataset.source === "initial-sequence"
+        ) {
+          hideTooltip();
+        }
+
+        // Second tooltip (team name) after a delay
+        initialTooltipTimeoutId2 = setTimeout(() => {
+          if (
+            document.activeElement === teamNameElement ||
+            (tooltip &&
+              tooltip.classList.contains("show") &&
+              tooltip.dataset.source === "interactive")
+          ) {
+            return; // Don't show if element is focused or an interactive tooltip is already up
+          }
+          const wasShown2 = showTooltip(
+            teamNameElement,
+            teamNameText,
+            "initial-sequence"
+          );
+
+          if (wasShown2) {
+            initialTooltipHideTimeoutId2 = setTimeout(() => {
+              if (
+                tooltip &&
+                tooltip.classList.contains("show") &&
+                tooltip.dataset.targetId === teamNameElement.id &&
+                tooltip.dataset.source === "initial-sequence"
+              ) {
+                hideTooltip();
+              }
+            }, TOOLTIP_DISPLAY_DURATION);
+          }
+        }, DELAY_BETWEEN_INITIAL_TOOLTIPS);
+      }, TOOLTIP_DISPLAY_DURATION);
+    }
+  }, INITIAL_TOOLTIP_DELAY_FIRST);
+}
+
+// ============================================================================
 //  CORE FUNCTIONS
 // ============================================================================
 function initialize() {
+  clearInitialTooltipSequenceTimeouts(); // Clear any running initial tooltips
+
   currentStep = 0;
   picks = { 1: [], 2: [] };
   bans = { 1: [], 2: [] };
@@ -415,6 +612,11 @@ function initialize() {
   updateInstructions();
   updateResultsPanel();
   resetButton.classList.add("hidden");
+
+  if (isInitialPageLoad) {
+    startInitialTooltipSequence(); // Start the new initial tooltip sequence
+    isInitialPageLoad = false; // Ensure this only runs on the very first load
+  }
 }
 
 function createMapTiles() {
@@ -643,12 +845,15 @@ function updateResultsPanel() {
 //  EVENT LISTENERS
 // ============================================================================
 resetButton.addEventListener("click", initialize);
-team1ColorPicker.addEventListener("input", (e) =>
-  updateTeamColor(1, e.target.value)
-);
-team2ColorPicker.addEventListener("input", (e) =>
-  updateTeamColor(2, e.target.value)
-);
+team1ColorPicker.addEventListener("input", (e) => {
+  updateTeamColor(1, e.target.value);
+  // Potentially hide tooltip if user interacts with color picker dialog
+  hideTooltip();
+});
+team2ColorPicker.addEventListener("input", (e) => {
+  updateTeamColor(2, e.target.value);
+  hideTooltip();
+});
 
 gameFormatSelector.addEventListener("change", (event) => {
   const selectedFormat = event.target.value;
@@ -679,74 +884,101 @@ battleFormatSelector.addEventListener("change", (event) => {
   }
 });
 
-// Tooltip functionality
-let tooltip = null;
-
-function createTooltip() {
-  if (!tooltip) {
-    tooltip = document.createElement("div");
-    tooltip.className = "custom-tooltip";
-    document.body.appendChild(tooltip);
+// Interactive Tooltip Listeners
+function addInteractiveTooltipListeners(element, text) {
+  if (!element) return;
+  // Ensure element has an ID, though for primary elements, they are set in HTML
+  if (!element.id) {
+    element.id = `tooltip-interactive-target-${Math.random()
+      .toString(36)
+      .substring(2, 11)}`;
   }
-  return tooltip;
-}
 
-function showTooltip(element, text) {
-  const tooltipEl = createTooltip();
-  tooltipEl.textContent = text;
+  element.addEventListener("mouseenter", (e) => {
+    showTooltip(e.target, text, true); // isInteractive = true
+  });
 
-  const rect = element.getBoundingClientRect();
-  const tooltipRect = tooltipEl.getBoundingClientRect();
+  element.addEventListener("mouseleave", (e) => {
+    if (
+      tooltip &&
+      tooltip.classList.contains("show") &&
+      tooltip.dataset.source === "interactive" &&
+      tooltip.dataset.targetId === e.target.id
+    ) {
+      hideTooltip();
+    }
+  });
 
-  // Position above the element
-  const top = rect.top - tooltipRect.height - 15;
-  const left = rect.left + rect.width / 2 - tooltipRect.width / 2;
+  element.addEventListener("focus", (e) => {
+    hideTooltip(); // Hide any tooltip when input is focused
+  });
 
-  // Ensure tooltip stays within viewport
-  const finalLeft = Math.max(
-    10,
-    Math.min(left, window.innerWidth - tooltipRect.width - 10)
-  );
-
-  tooltipEl.style.top = `${Math.max(10, top)}px`;
-  tooltipEl.style.left = `${finalLeft}px`;
-  tooltipEl.classList.add("show");
-}
-
-function hideTooltip() {
-  if (tooltip) {
-    tooltip.classList.remove("show");
+  // For color pickers, 'click' might be more relevant than 'focus' for hiding
+  if (element.type === "color") {
+    element.addEventListener("click", () => {
+      hideTooltip(); // Hide tooltip when color picker dialog is opened
+    });
   }
+
+  element.addEventListener("blur", () => {
+    // Good for consistency
+    if (
+      tooltip &&
+      tooltip.classList.contains("show") &&
+      tooltip.dataset.source === "interactive" &&
+      tooltip.dataset.targetId === element.id
+    ) {
+      hideTooltip();
+    }
+  });
 }
 
-// Add event listeners for proper tooltip positioning
+// Apply interactive listeners
+// For Team Name Inputs (modifying existing setup slightly)
 [team1NameInput, team2NameInput].forEach((input) => {
+  if (!input) return;
+  if (!input.id) input.id = `team-name-${input === team1NameInput ? "1" : "2"}`;
+
+  input.addEventListener("mouseenter", (e) => {
+    showTooltip(e.target, "Click to edit team name", true); // Normal text
+  });
+  input.addEventListener("mouseleave", (e) => {
+    if (
+      tooltip &&
+      tooltip.classList.contains("show") &&
+      tooltip.dataset.source === "interactive" &&
+      tooltip.dataset.targetId === e.target.id
+    ) {
+      hideTooltip();
+    }
+  });
+  input.addEventListener("focus", (e) => {
+    hideTooltip(); // Hide any tooltip when input is focused
+  });
   input.addEventListener("blur", () => {
     updateInstructions();
     updateResultsPanel();
-    hideTooltip();
+    // Hide interactive tooltip for this element on blur
+    if (
+      tooltip &&
+      tooltip.classList.contains("show") &&
+      tooltip.dataset.source === "interactive" &&
+      tooltip.dataset.targetId === input.id
+    ) {
+      hideTooltip();
+    }
   });
-
   input.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
       input.blur();
     }
   });
-
-  // Add tooltip functionality
-  input.addEventListener("mouseenter", (e) => {
-    showTooltip(e.target, "Click to edit team name");
-  });
-
-  input.addEventListener("mouseleave", () => {
-    hideTooltip();
-  });
-
-  input.addEventListener("focus", () => {
-    hideTooltip();
-  });
 });
+
+// For Color Pickers
+addInteractiveTooltipListeners(team1ColorPicker, "Click to edit the color"); // Normal text
+addInteractiveTooltipListeners(team2ColorPicker, "Click to edit the color"); // Normal text
 
 // Set default team names
 document.addEventListener("DOMContentLoaded", function () {
@@ -766,37 +998,27 @@ document.addEventListener("DOMContentLoaded", function () {
     team2ColorPicker.value = "#dc3545"; // Red
   }
 
-  initialize();
+  initialize(); // This will also call setupPeriodicTooltips
   updateTeamColor(1, "#007bff");
   updateTeamColor(2, "#dc3545");
 });
 
 // Alternative initialization if DOMContentLoaded already fired
+// This block can be simplified if initialize() is robustly called once
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", function () {
-    if (team1NameInput) {
-      team1NameInput.textContent = "Team Blue";
-    }
-    if (team2NameInput) {
-      team2NameInput.textContent = "Team Red";
-    }
-    if (team1ColorPicker) team1ColorPicker.value = "#007bff";
-    if (team2ColorPicker) team2ColorPicker.value = "#dc3545";
-    initialize();
-    updateTeamColor(1, "#007bff");
-    updateTeamColor(2, "#dc3545");
-  });
+  // Already handled by the above DOMContentLoaded
 } else {
-  // DOM already loaded
-  if (team1NameInput) {
-    team1NameInput.textContent = "Team Blue";
-  }
-  if (team2NameInput) {
-    team2NameInput.textContent = "Team Red";
-  }
-  if (team1ColorPicker) team1ColorPicker.value = "#007bff";
-  if (team2ColorPicker) team2ColorPicker.value = "#dc3545";
-  initialize();
-  updateTeamColor(1, "#007bff");
-  updateTeamColor(2, "#dc3545");
+  // DOM already loaded - ensure initialize is called if not already
+  // This might lead to multiple initializations if not careful.
+  // The single DOMContentLoaded listener calling initialize is usually sufficient.
+  // For safety, check if already initialized if you keep this block.
+  // For now, assuming the primary DOMContentLoaded handles it.
+  // if (!document.body.dataset.initialized) { // Example guard
+  //    if (team1NameInput) team1NameInput.textContent = "Team Blue";
+  //    // ... (rest of defaults)
+  //    initialize();
+  //    updateTeamColor(1, "#007bff");
+  //    updateTeamColor(2, "#dc3545");
+  //    document.body.dataset.initialized = "true";
+  // }
 }
