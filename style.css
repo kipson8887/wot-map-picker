@@ -13,7 +13,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Roboto', sans-serif;
-  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
+  background: #2c2c2c;
   color: #f0f0f0;
   min-height: 100vh;
   max-height: 100vh;
@@ -21,7 +21,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 5px;
+  /* padding: 5px; */
   /* Reduced from 10px */
   box-sizing: border-box;
 }
@@ -556,7 +556,7 @@ h1::after {
 }
 
 .map-tile.single-full-width-map {
-  max-height: 237px;
+  max-height: 190px;
   /* Reduced from 280px */
   /* The tile still has aspect-ratio: 16/9 from .map-tile.
      It will take full width due to grid-column: span 6.
@@ -747,7 +747,7 @@ h1::after {
   /* Reduced from 220px */
   max-width: 240px;
   /* Reduced from 280px */
-  overflow: visible;
+  overflow: auto;
   /* Allow tooltips to overflow */
 }
 
@@ -1004,7 +1004,8 @@ input[type="color"]::-webkit-color-swatch {
 
 .site-footer p {
   margin: 0;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.75px;
+  font-size: 1.15em;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
   display: flex;
   /* Align items in the paragraph */
@@ -1020,7 +1021,7 @@ input[type="color"]::-webkit-color-swatch {
   opacity: 0.6;
   margin: 0 8px;
   /* Reduced from 10px */
-  font-size: 1.2em;
+  font-size: 1.6em;
   /* Reduced from 1.6em */
 }
 
