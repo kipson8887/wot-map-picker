@@ -1050,9 +1050,9 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .site-footer .twitch-icon-link svg {
-  width: 16px;
+  width: 24px;
   /* Reduced from 20px */
-  height: 16px;
+  height: 24px;
   /* Reduced from 20px */
   fill: currentColor;
   /* Use the link's color for the SVG fill */
