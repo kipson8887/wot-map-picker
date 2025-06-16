@@ -156,17 +156,39 @@ function generateCorrectSequence(boXValue) {
 const FINAL_SEQUENCES = {
   // Removed BO1 as requested
 
-  bo3: generateCorrectSequence(3), // First to 2: PICK(T1) -> BAN(T2) -> PICK(T2)
-  // Result: [P1, B2, P2] = 3 actions, needs 4+ maps
+  bo3: [
+    { team: 1, action: "PICK" }, // Team A picks a map
+    { team: 2, action: "PICK" }, // Team B picks the tiebreaker
+  ], // 2 actions, 2 maps played. Needs 2 + 1 = 3+ maps in pool.
 
-  bo5: generateCorrectSequence(5), // First to 3: PICK(T1) -> BAN(T2) -> PICK(T2) -> BAN(T1) -> PICK(T1)
-  // Result: [P1, B2, P2, B1, P1] = 5 actions, needs 6+ maps
+  bo5: [
+    { team: 1, action: "PICK" }, // Team A picks a map
+    { team: 2, action: "PICK" }, // Team B picks a map
+    { team: 1, action: "BAN" }, // Team A bans a map
+    { team: 2, action: "BAN" }, // Team B bans a map
+    { team: 1, action: "PICK" }, // Team A picks the tiebreaker
+  ], // 5 actions, 3 maps played. Needs 5 + 1 = 6+ maps in pool.
 
-  bo7: generateCorrectSequence(7), // First to 4: PICK(T1) -> BAN(T2) -> PICK(T2) -> BAN(T1) -> PICK(T1) -> BAN(T2) -> PICK(T2)
-  // Result: [P1, B2, P2, B1, P1, B2, P2] = 7 actions, needs 8+ maps
+  bo7: [
+    { team: 1, action: "PICK" }, // Team A picks a map
+    { team: 2, action: "PICK" }, // Team B picks a map
+    { team: 1, action: "BAN" }, // Team A bans a map
+    { team: 2, action: "BAN" }, // Team B bans a map
+    { team: 1, action: "PICK" }, // Team A picks a map
+    { team: 2, action: "PICK" }, // Team B picks a map
+    { team: 1, action: "PICK" }, // Team A picks the tiebreaker
+  ], // 7 actions, 4 maps played. Needs 7 + 1 = 8+ maps in pool.
 
-  bo9: generateCorrectSequence(9), // First to 5: PICK(T1) -> BAN(T2) -> PICK(T2) -> BAN(T1) -> PICK(T1) -> BAN(T2) -> PICK(T2) -> BAN(T1) -> PICK(T1)
-  // Result: [P1, B2, P2, B1, P1, B2, P2, B1, P1] = 9 actions, needs 10+ maps
+  bo9: [
+    { team: 1, action: "PICK" }, // Team A picks a map
+    { team: 2, action: "PICK" }, // Team B picks a map
+    { team: 1, action: "BAN" }, // Team A bans a map
+    { team: 2, action: "BAN" }, // Team B bans a map
+    { team: 1, action: "PICK" }, // Team A picks a map
+    { team: 2, action: "PICK" }, // Team B picks a map
+    { team: 1, action: "BAN" }, // Team A bans a map
+    { team: 2, action: "PICK" }, // Team B picks the tiebreaker
+  ], // 8 actions, 5 maps played. Needs 8 maps in pool (perfect fit for BO9 rule).
 };
 
 // ============================================================================
@@ -472,15 +494,8 @@ function handleMapClick(map) {
     resetButton.classList.remove("hidden");
   }
 
-  // Special handling for BO9: auto-pick the last remaining map
-  if (
-    gameFormatSelector.value === "bo9" &&
-    currentStep === PICK_BAN_SEQUENCE.length - 1
-  ) {
-    // We just completed the 8th action (a ban), now auto-pick the last map
-    autoPickLastMapForBO9();
-  } else if (currentStep >= PICK_BAN_SEQUENCE.length) {
-    // For other formats, auto-ban remaining maps
+  // If all sequence steps are completed, auto-ban remaining maps
+  if (currentStep >= PICK_BAN_SEQUENCE.length) {
     autobanRemainingMaps();
   }
 
@@ -502,35 +517,6 @@ function isTiebreakerPick() {
 
   // If this is the last pick (remainingPicks === 1, including the current one we just processed)
   return remainingPicks === 1;
-}
-
-/**
- * Auto-picks the last remaining map for BO9 format
- */
-function autoPickLastMapForBO9() {
-  // Find the last remaining map
-  const remainingTiles = document.querySelectorAll(".map-tile:not(.disabled)");
-
-  if (remainingTiles.length === 1 && currentStep < PICK_BAN_SEQUENCE.length) {
-    const lastAction = PICK_BAN_SEQUENCE[currentStep]; // This should be the final PICK action
-    const remainingTile = remainingTiles[0];
-    const mapName = remainingTile.dataset.mapName;
-
-    if (lastAction.action === "PICK") {
-      // Auto-pick the last map
-      picks[lastAction.team].push(mapName);
-      remainingTile.classList.add(`picked-by-team${lastAction.team}`);
-      remainingTile.classList.add("tiebreaker"); // Mark as tiebreaker
-      remainingTile.querySelector(
-        ".map-overlay"
-      ).textContent = `TIEBREAKER - *PICKED BY ${getTeamName(lastAction.team)}`;
-      remainingTile.classList.add("disabled");
-
-      currentStep++; // Complete the sequence
-    }
-  }
-
-  // Now that BO9 is complete, no need to auto-ban since all maps are accounted for
 }
 
 function autobanRemainingMaps() {
