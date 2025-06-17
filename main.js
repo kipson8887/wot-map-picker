@@ -895,7 +895,7 @@ function addInteractiveTooltipListeners(element, text) {
   }
 
   element.addEventListener("mouseenter", (e) => {
-    showTooltip(e.target, text, true); // isInteractive = true
+    showTooltip(e.target, text, "interactive"); // Fixed: use "interactive" instead of true
   });
 
   element.addEventListener("mouseleave", (e) => {
@@ -940,7 +940,7 @@ function addInteractiveTooltipListeners(element, text) {
   if (!input.id) input.id = `team-name-${input === team1NameInput ? "1" : "2"}`;
 
   input.addEventListener("mouseenter", (e) => {
-    showTooltip(e.target, "Click to edit team name", true); // Normal text
+    showTooltip(e.target, "Click to edit team name", "interactive"); // Fixed: use "interactive" instead of true
   });
   input.addEventListener("mouseleave", (e) => {
     if (
